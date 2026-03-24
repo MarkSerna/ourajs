@@ -142,6 +142,32 @@ Oura.configure({ locale: 'es' });
 
 ---
 
+## TypeScript
+
+Tipos públicos se reexportan junto al default:
+
+```ts
+import Oura from 'oura-js';
+import type { OuraOptions, OuraConfig, OuraResult, OuraPromiseMessages } from 'oura-js';
+```
+
+`package.json` declara `exports.types` primero para que el IDE resuelva bien los `.d.ts`.
+
+---
+
+## Development
+
+```bash
+npm run lint              # ESLint (TypeScript)
+npm test                  # Vitest
+npm run test:coverage     # Vitest + V8 coverage (same as CI)
+npm run build
+```
+
+Guidance on HTML, XSS, and SSR: see **Security & HTML** in the documentation site.
+
+---
+
 ## 📖 API Reference
 
 ### Notifications

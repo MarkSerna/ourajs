@@ -15,6 +15,15 @@ const cleanup = Oura.dropdown('#menu-trigger', {
 });
 ```
 
+<OuraDemo label="▶ Open Dropdown" :fn="(Oura, el) => Oura.dropdown(el, {
+  items: [
+    { label: 'Profile', icon: '👤', onClick: () => Oura.success('Profile!') },
+    { label: 'Settings', icon: '⚙️', onClick: () => Oura.info('Settings!') },
+    { separator: true },
+    { label: 'Logout', icon: '🚪', danger: true, onClick: () => Oura.error('Logged out') }
+  ]
+})" />
+
 ## Item Options
 
 | Option | Type | Description |

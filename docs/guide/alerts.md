@@ -12,6 +12,12 @@ Oura.alert({
 });
 ```
 
+<OuraDemo label="▶ Show Success Alert" :fn="(Oura) => Oura.alert({
+  title: 'All Good!',
+  description: 'Procesamiento completado con éxito.',
+  variant: 'success'
+})" />
+
 ## Variants
 
 ```js

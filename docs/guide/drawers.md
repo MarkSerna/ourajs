@@ -1,7 +1,3 @@
-<script setup>
-import OuraDemo from '../components/OuraDemo.vue'
-</script>
-
 # Drawers (Side Sheets)
 
 Oura's **Drawer** is a side panel that slides in from any edge of the screen, perfect for settings panels, navigation, or rich content that doesn't need a full page.
@@ -23,7 +19,7 @@ Oura.drawer({
 });
 ```
 
-<OuraDemo type="drawer" label="▶ Open Side Drawer" />
+<OuraDemo label="▶ Open Right Drawer" :fn="(Oura) => Oura.drawer({ title: 'Settings', side: 'right', html: 'Panel content' })" />
 
 ## Side Options
 

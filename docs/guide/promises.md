@@ -1,7 +1,3 @@
-<script setup>
-import OuraDemo from '../components/OuraDemo.vue'
-</script>
-
 # Promises
 
 Oura has first-class support for async operations. Use `Oura.promise()` to automatically display **loading → success / error** states with a single call.
@@ -20,7 +16,14 @@ Oura.promise(fetchData, {
 });
 ```
 
-<OuraDemo type="promise" label="▶ Try Promise Toast" />
+<OuraDemo label="▶ Try Promise Toast" :fn="(Oura) => {
+  const p = new Promise(res => setTimeout(() => res('ok'), 2000));
+  Oura.promise(p, {
+    loading: 'Loading data...',
+    success: 'Successfully loaded!',
+    error: 'Error'
+  });
+}" />
 
 ## Dynamic Messages
 
@@ -61,7 +64,18 @@ if (result.isConfirmed) {
 }
 ```
 
-<OuraDemo type="async" label="▶ Try Async Prompt" />
+<OuraDemo label="▶ Try Async Prompt" :fn='async (Oura) => {
+  const result = await Oura.prompt({
+    title: "Enter Code",
+    text: "Type \"oura\" to unlock.",
+    preConfirm: async (val) => {
+      await new Promise(r => setTimeout(r, 1000));
+      if (val !== "oura") throw new Error("Incorrect code!");
+      return val;
+    }
+  });
+  if (result.isConfirmed) Oura.success("Unlocked!");
+}' />
 
 :::tip
 `Oura.promise()` returns a `Promise<T>` that resolves/rejects with the original value so you can still chain `.then()` and `.catch()` as normal.

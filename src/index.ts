@@ -1,4 +1,4 @@
-import { OuraOptions, OuraConfig, OuraResult, ButtonConfig, TooltipOptions, PopoverOptions, DropdownOptions, DropdownItem, AlertOptions, SkeletonOptions, HoverCardOptions } from './types';
+import { OuraOptions, OuraConfig, OuraResult, ButtonConfig, TooltipOptions, PopoverOptions, DropdownOptions, DropdownItem, AlertOptions, SkeletonOptions, HoverCardOptions, OuraI18nStrings, OuraPromiseMessages, OuraToastHandle } from './types';
 import { ICONS, MAIN_ICONS } from './icons';
 import { injectStyles } from './styles';
 
@@ -15,22 +15,51 @@ class OuraNotification {
     private originalPaddingRight: string = '';
 
     private locale: string = 'en';
-    private i18n: Record<string, { confirm?: string, cancel?: string, submit?: string, continue?: string, deny?: string }> = {
-        en: { confirm: 'Confirm', cancel: 'Cancel', submit: 'Submit', continue: 'Continue', deny: 'Deny' },
-        es: { confirm: 'Confirmar', cancel: 'Cancelar', submit: 'Enviar', continue: 'Continuar', deny: 'Denegar' },
-        fr: { confirm: 'Confirmer', cancel: 'Annuler', submit: 'Soumettre', continue: 'Continuer', deny: 'Refuser' },
-        de: { confirm: 'Bestätigen', cancel: 'Abbrechen', submit: 'Einreichen', continue: 'Weiter', deny: 'Ablehnen' },
-        it: { confirm: 'Conferma', cancel: 'Annulla', submit: 'Invia', continue: 'Continua', deny: 'Rifiuta' },
-        pt: { confirm: 'Confirmar', cancel: 'Cancelar', submit: 'Enviar', continue: 'Continuar', deny: 'Recusar' },
-        zh: { confirm: '确认', cancel: '取消', submit: '提交', continue: '继续', deny: '拒绝' },
-        ja: { confirm: '確認', cancel: 'キャンセル', submit: '送信', continue: '続行', deny: '拒否' },
-        ru: { confirm: 'Подтвердить', cancel: 'Отмена', submit: 'Отправить', continue: 'Продолжить', deny: 'Отказать' },
-        ar: { confirm: 'تأكيد', cancel: 'إلغاء', submit: 'إرسال', continue: 'متابعة', deny: 'رفض' }
+    private i18n: Record<string, OuraI18nStrings> = {
+        en: { confirm: 'Confirm', cancel: 'Cancel', submit: 'Submit', continue: 'Continue', deny: 'Deny', dismiss: 'Dismiss' },
+        es: { confirm: 'Confirmar', cancel: 'Cancelar', submit: 'Enviar', continue: 'Continuar', deny: 'Denegar', dismiss: 'Cerrar' },
+        fr: { confirm: 'Confirmer', cancel: 'Annuler', submit: 'Soumettre', continue: 'Continuer', deny: 'Refuser', dismiss: 'Fermer' },
+        de: { confirm: 'Bestätigen', cancel: 'Abbrechen', submit: 'Einreichen', continue: 'Weiter', deny: 'Ablehnen', dismiss: 'Schließen' },
+        it: { confirm: 'Conferma', cancel: 'Annulla', submit: 'Invia', continue: 'Continua', deny: 'Rifiuta', dismiss: 'Chiudi' },
+        pt: { confirm: 'Confirmar', cancel: 'Cancelar', submit: 'Enviar', continue: 'Continuar', deny: 'Recusar', dismiss: 'Fechar' },
+        zh: { confirm: '确认', cancel: '取消', submit: '提交', continue: '继续', deny: '拒绝', dismiss: '关闭' },
+        ja: { confirm: '確認', cancel: 'キャンセル', submit: '送信', continue: '続行', deny: '拒否', dismiss: '閉じる' },
+        ru: { confirm: 'Подтвердить', cancel: 'Отмена', submit: 'Отправить', continue: 'Продолжить', deny: 'Отказать', dismiss: 'Закрыть' },
+        ar: { confirm: 'تأكيد', cancel: 'إلغاء', submit: 'إرسال', continue: 'متابعة', deny: 'رفض', dismiss: 'إغلاق' }
     };
 
-    private getI18n(key: 'confirm' | 'cancel' | 'submit' | 'continue' | 'deny'): string {
+    private theme: 'light-glass' | 'dark-glass' | 'system' = 'system';
+    private mq: MediaQueryList | null = null;
+
+    private _getEffectiveTheme(): 'light-glass' | 'dark-glass' {
+        if (typeof window === 'undefined') return 'light-glass';
+        if (this.theme === 'system') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-glass' : 'light-glass';
+        }
+        return this.theme as 'light-glass' | 'dark-glass';
+    }
+
+    private _applyThemeToElement(el: HTMLElement) {
+        const effectiveTheme = this._getEffectiveTheme();
+        if (effectiveTheme === 'dark-glass') el.classList.add('oura-dark-glass');
+        else el.classList.remove('oura-dark-glass');
+    }
+
+    private getI18n(key: keyof OuraI18nStrings): string {
         const lang = this.i18n[this.locale] || this.i18n['en'];
-        return lang[key] || this.i18n['en'][key] || 'Process';
+        const fromLang = lang[key];
+        if (fromLang != null && fromLang !== '') return fromLang;
+        const fromEn = this.i18n['en'][key];
+        if (fromEn != null && fromEn !== '') return fromEn;
+        const fallback: Record<keyof OuraI18nStrings, string> = {
+            confirm: 'Confirm',
+            cancel: 'Cancel',
+            submit: 'Submit',
+            continue: 'Continue',
+            deny: 'Deny',
+            dismiss: 'Dismiss',
+        };
+        return fallback[key];
     }
 
     constructor() {
@@ -59,26 +88,35 @@ class OuraNotification {
             document.documentElement.style.setProperty('--oura-accent', options.accent);
         }
 
-        if (options.position) {
-            const container = document.getElementById('oura-toast-container');
-            if (container) {
-                // Remove existing positioning classes
+        if (options.theme) {
+            this.theme = options.theme;
+        }
+
+        const container = document.getElementById('oura-toast-container');
+        if (container) {
+            if (options.position) {
                 container.className = 'oura-toast-container';
                 container.classList.add(`oura-pos-${options.position}`);
             }
+            // Apply theme to toast container
+            this._applyThemeToElement(container);
         }
 
-        const applyTheme = (theme: 'light-glass' | 'dark-glass') => {
-            if (theme === 'dark-glass') document.documentElement.classList.add('oura-dark-glass');
-            else document.documentElement.classList.remove('oura-dark-glass');
-        };
+        // Update active modals/overlays immediately
+        this.activeModals.forEach(m => this._applyThemeToElement(m.overlay));
 
-        if (options.theme === 'system') {
-            const mq = window.matchMedia('(prefers-color-scheme: dark)');
-            applyTheme(mq.matches ? 'dark-glass' : 'light-glass');
-            mq.onchange = (e) => applyTheme(e.matches ? 'dark-glass' : 'light-glass');
-        } else if (options.theme) {
-            applyTheme(options.theme);
+        // Handle system theme changes reactively
+        if (typeof window !== 'undefined') {
+            if (this.mq) this.mq.onchange = null;
+            if (this.theme === 'system') {
+                this.mq = window.matchMedia('(prefers-color-scheme: dark)');
+                this.mq.onchange = () => {
+                    const c = document.getElementById('oura-toast-container');
+                    if (c) this._applyThemeToElement(c);
+                    // Also update active modals/overlays
+                    this.activeModals.forEach(m => this._applyThemeToElement(m.overlay));
+                };
+            }
         }
     }
 
@@ -135,8 +173,12 @@ class OuraNotification {
             
             this._lockScroll();
 
+            const previousActiveElement =
+                document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
             const overlay = document.createElement('div');
             overlay.className = 'oura-overlay';
+            this._applyThemeToElement(overlay);
 
             const modal = document.createElement('div');
             const side = options.side || 'right';
@@ -249,6 +291,67 @@ class OuraNotification {
             modal.addEventListener('keydown', trap as EventListener);
             if (this.activeModals.length === 0) document.addEventListener('keydown', this.handleEsc);
 
+            // Drawer Swipe Logic
+            let cleanupDrawerTouch: (() => void) | null = null;
+            if (isDrawer) {
+                let startX = 0;
+                let startY = 0;
+                let currentDelta = 0;
+                let isDragging = false;
+                const side = options.side || 'right';
+                const touchMoveOpts: AddEventListenerOptions = { passive: true };
+
+                modal.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    isDragging = true;
+                    modal.style.transition = 'none';
+                }, { passive: true });
+
+                const onDrawerTouchMove = (e: Event) => {
+                    if (!isDragging) return;
+                    const te = e as TouchEvent;
+                    const curX = te.touches[0].clientX;
+                    const curY = te.touches[0].clientY;
+                    
+                    if (side === 'right') currentDelta = Math.max(0, curX - startX);
+                    else if (side === 'left') currentDelta = Math.min(0, curX - startX);
+                    else if (side === 'top') currentDelta = Math.min(0, curY - startY);
+                    else if (side === 'bottom') currentDelta = Math.max(0, curY - startY);
+
+                    if (side === 'right' || side === 'left') {
+                        modal.style.transform = `translateX(${currentDelta}px)`;
+                    } else {
+                        modal.style.transform = `translateY(${currentDelta}px)`;
+                    }
+
+                    const dim = side === 'right' || side === 'left' ? modal.offsetWidth : modal.offsetHeight;
+                    const opacity = 1 - Math.abs(currentDelta) / dim;
+                    overlay.style.opacity = Math.max(0, opacity).toString();
+                };
+
+                const onDrawerTouchEnd = () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    modal.style.transition = '';
+                    const dim = side === 'right' || side === 'left' ? modal.offsetWidth : modal.offsetHeight;
+                    if (Math.abs(currentDelta) > dim / 3) {
+                        close({ isConfirmed: false, isDismissed: true, isDenied: false });
+                    } else {
+                        modal.style.transform = '';
+                        overlay.style.opacity = '';
+                    }
+                };
+
+                document.addEventListener('touchmove', onDrawerTouchMove, touchMoveOpts);
+                document.addEventListener('touchend', onDrawerTouchEnd);
+
+                cleanupDrawerTouch = () => {
+                    document.removeEventListener('touchmove', onDrawerTouchMove, touchMoveOpts);
+                    document.removeEventListener('touchend', onDrawerTouchEnd);
+                };
+            }
+
             const modalInstance: ModalInstance = { overlay, modal, close: () => {} };
             
             const close = async (result: OuraResult, buttonNode?: HTMLButtonElement) => {
@@ -259,8 +362,8 @@ class OuraNotification {
                     }
                     try {
                         const preConfirmValue = await options.preConfirm(result.value);
-                        if (preConfirmValue !== undefined) result.value = preConfirmValue;
-                    } catch (error: any) {
+                        if (preConfirmValue !== undefined) result.value = preConfirmValue as string;
+                    } catch (error: unknown) {
                         if (buttonNode) {
                             buttonNode.classList.remove('oura-btn-loading');
                             buttonNode.disabled = false;
@@ -272,7 +375,7 @@ class OuraNotification {
                             if (inputEl) inputEl.parentNode?.insertBefore(valMsg, inputEl);
                             else contentContainer.insertBefore(valMsg, actions);
                         }
-                        valMsg.textContent = error.message || String(error);
+                        valMsg.textContent = error instanceof Error ? error.message : String(error);
                         valMsg.classList.remove('oura-show');
                         void valMsg.offsetWidth; 
                         valMsg.classList.add('oura-show');
@@ -286,11 +389,15 @@ class OuraNotification {
                 overlay.classList.add('oura-closing');
                 
                 setTimeout(() => {
+                    cleanupDrawerTouch?.();
                     overlay.remove();
                     this.activeModals = this.activeModals.filter(m => m !== modalInstance);
                     if (this.activeModals.length === 0) {
                         document.removeEventListener('keydown', this.handleEsc);
                         this._unlockScroll();
+                    }
+                    if (previousActiveElement?.isConnected) {
+                        previousActiveElement.focus({ preventScroll: true });
                     }
                     resolve(result);
                 }, 300);
@@ -311,18 +418,24 @@ class OuraNotification {
         });
     }
 
-    private _parseArgs(args: any[], defaultIcon?: OuraOptions['icon']): OuraOptions {
+    private _parseArgs(args: unknown[], defaultIcon?: OuraOptions['icon']): OuraOptions {
         if (typeof args[0] === 'string' || typeof args[1] === 'string') {
             return {
-                title: args[0] || '',
-                text: args[1] || '',
-                icon: args[2] || defaultIcon
+                title: (args[0] as string) || '',
+                text: (args[1] as string) || '',
+                icon: (args[2] as OuraOptions['icon']) || defaultIcon
             };
         }
-        return { icon: defaultIcon, ...(args[0] || {}) };
+        const opts = args[0];
+        if (opts && typeof opts === 'object' && !Array.isArray(opts)) {
+            return { icon: defaultIcon, ...(opts as OuraOptions) };
+        }
+        return { icon: defaultIcon };
     }
 
-    public fire(...args: any[]): Promise<OuraResult> {
+    public fire(options?: OuraOptions): Promise<OuraResult>;
+    public fire(title: string, text?: string, icon?: OuraOptions['icon']): Promise<OuraResult>;
+    public fire(...args: unknown[]): Promise<OuraResult> {
         const config = this._parseArgs(args, 'success');
         return this._buildModal(config, [
             {
@@ -332,7 +445,9 @@ class OuraNotification {
         ]);
     }
 
-    public confirm(...args: any[]): Promise<OuraResult> {
+    public confirm(options?: OuraOptions): Promise<OuraResult>;
+    public confirm(title: string, text?: string, icon?: OuraOptions['icon']): Promise<OuraResult>;
+    public confirm(...args: unknown[]): Promise<OuraResult> {
         const config: OuraOptions = { 
             title: 'Are you sure?', 
             text: 'This action cannot be undone.',
@@ -363,13 +478,10 @@ class OuraNotification {
     }
 
     public prompt(titleOrOptions: string | OuraOptions, text?: string, inputType: OuraOptions['input'] = 'text'): Promise<OuraResult> {
-        let config: OuraOptions = {};
-        if (typeof titleOrOptions === 'string') {
-            config = { title: titleOrOptions, text, input: inputType };
-        } else {
-            config = titleOrOptions as OuraOptions;
-            if (!config.input) config.input = 'text';
-        }
+        const config: OuraOptions =
+            typeof titleOrOptions === 'string'
+                ? { title: titleOrOptions, text, input: inputType }
+                : { ...titleOrOptions, input: titleOrOptions.input ?? 'text' };
 
         const buttons: ButtonConfig[] = [];
         buttons.push({
@@ -430,8 +542,11 @@ class OuraNotification {
         });
     }
 
-    public toast(...args: any[]): Promise<boolean> {
-        return new Promise((resolve) => {
+    public toast(options?: OuraOptions): OuraToastHandle;
+    public toast(title: string, text?: string, icon?: OuraOptions['icon']): OuraToastHandle;
+    public toast(...args: unknown[]): OuraToastHandle {
+        let updateToast: (newOpts: Partial<OuraOptions>) => void = () => {};
+        const promise = new Promise<boolean>((resolve) => {
             if (typeof document === 'undefined') return resolve(false);
 
             const parsed = this._parseArgs(args);
@@ -500,7 +615,18 @@ class OuraNotification {
             container.appendChild(toast);
             this.recalculateToastStack();
 
+            let timeoutId: ReturnType<typeof setTimeout> | undefined;
+            let startTime = Date.now();
+            let remainingTime = config.timer || 0;
+            let isPaused = false;
+
+            let cleanupToastDocumentTouch: (() => void) | null = null;
+
             const close = () => {
+                if (toast.classList.contains('oura-closing')) return;
+                cleanupToastDocumentTouch?.();
+                cleanupToastDocumentTouch = null;
+                toast.classList.add('oura-closing');
                 toast.classList.remove('oura-show');
                 setTimeout(() => {
                     toast.remove();
@@ -509,22 +635,99 @@ class OuraNotification {
                 }, 400); 
             };
 
+            const pauseTimer = () => {
+                if (!config.timer || config.timer <= 0 || isPaused) return;
+                isPaused = true;
+                if (timeoutId !== undefined) clearTimeout(timeoutId);
+                remainingTime -= Date.now() - startTime;
+                if (remainingTime < 100) remainingTime = 100;
+            };
+
+            const resumeTimer = () => {
+                if (!config.timer || config.timer <= 0 || !isPaused) return;
+                isPaused = false;
+                startTime = Date.now();
+                timeoutId = setTimeout(close, remainingTime);
+            };
+
+            // Swipe Logic
+            let startX = 0;
+            let currentX = 0;
+            let isDragging = false;
+
+            const touchMoveOpts: AddEventListenerOptions = { passive: true };
+
+            toast.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+                toast.style.transition = 'none';
+                pauseTimer();
+            }, { passive: true });
+
+            const onToastTouchMove = (e: Event) => {
+                if (!isDragging) return;
+                const te = e as TouchEvent;
+                currentX = te.touches[0].clientX - startX;
+                const opacity = 1 - Math.abs(currentX) / 200;
+                toast.style.transform = `translateX(${currentX}px) scale(var(--scale, 1)) translateY(calc(var(--y-offset, 0) * 1px))`;
+                toast.style.opacity = Math.max(0, opacity).toString();
+            };
+
+            const onToastTouchEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                toast.style.transition = '';
+                if (Math.abs(currentX) > 100) {
+                    close();
+                } else {
+                    toast.style.transform = '';
+                    toast.style.opacity = '';
+                    resumeTimer();
+                }
+            };
+
+            document.addEventListener('touchmove', onToastTouchMove, touchMoveOpts);
+            document.addEventListener('touchend', onToastTouchEnd);
+
+            cleanupToastDocumentTouch = () => {
+                document.removeEventListener('touchmove', onToastTouchMove, touchMoveOpts);
+                document.removeEventListener('touchend', onToastTouchEnd);
+            };
+
+            toast.addEventListener('mouseenter', pauseTimer);
+            toast.addEventListener('mouseleave', resumeTimer);
             toast.addEventListener('click', close);
             
             if (config.timer && config.timer > 0) {
-                setTimeout(close, config.timer);
+                timeoutId = setTimeout(close, config.timer);
             }
 
             requestAnimationFrame(() => {
                 toast.classList.remove('oura-init');
                 toast.classList.add('oura-show');
             });
+
+            updateToast = (newOpts: Partial<OuraOptions>) => {
+                if (newOpts.title) {
+                    const titleEl = toast.querySelector('.oura-toast-title');
+                    if (titleEl) titleEl.textContent = newOpts.title;
+                }
+                if (newOpts.text) {
+                    const textEl = toast.querySelector('.oura-toast-text');
+                    if (textEl) textEl.textContent = newOpts.text;
+                }
+                if (newOpts.icon && ICONS[newOpts.icon]) {
+                    const iconEl = toast.querySelector('.oura-toast-icon');
+                    if (iconEl) iconEl.innerHTML = ICONS[newOpts.icon];
+                }
+            };
         });
+        return Object.assign(promise, { update: updateToast }) as OuraToastHandle;
     }
 
     public promise<T>(
         promise: Promise<T> | (() => Promise<T>),
-        msgs: { loading: string, success: string | ((data: T) => string), error: string | ((err: any) => string) }
+        msgs: OuraPromiseMessages<T>
     ): Promise<T> {
         return new Promise((resolve, reject) => {
             if (typeof document === 'undefined') return reject();
@@ -580,10 +783,10 @@ class OuraNotification {
         });
     }
 
-    public success(title: string, text?: string) { return this.toast({ title, text, icon: 'success' }); }
-    public info(title: string, text?: string) { return this.toast({ title, text, icon: 'info' }); }
-    public warning(title: string, text?: string) { return this.toast({ title, text, icon: 'warning' }); }
-    public error(title: string, text?: string) { return this.toast({ title, text, icon: 'error' }); }
+    public success(title: string, text?: string): OuraToastHandle { return this.toast({ title, text, icon: 'success' }); }
+    public info(title: string, text?: string): OuraToastHandle { return this.toast({ title, text, icon: 'info' }); }
+    public warning(title: string, text?: string): OuraToastHandle { return this.toast({ title, text, icon: 'warning' }); }
+    public error(title: string, text?: string): OuraToastHandle { return this.toast({ title, text, icon: 'error' }); }
 
     // ── Tooltip ──
     public tooltip(target: string | HTMLElement, options: TooltipOptions): () => void {
@@ -591,10 +794,11 @@ class OuraNotification {
         const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target;
         if (!el) return () => {};
 
-        const tip = document.createElement('div');
-        tip.className = 'oura-tooltip';
-        tip.textContent = options.content;
-        document.body.appendChild(tip);
+        const tooltip = document.createElement('div');
+        tooltip.className = 'oura-tooltip';
+        this._applyThemeToElement(tooltip);
+        tooltip.innerHTML = typeof options === 'string' ? options : options.content;
+        document.body.appendChild(tooltip);
 
         const placement = options.placement || 'top';
         const delay = options.delay ?? 200;
@@ -603,25 +807,35 @@ class OuraNotification {
         const show = () => {
             timeout = setTimeout(() => {
                 const rect = el.getBoundingClientRect();
-                const tRect = tip.getBoundingClientRect();
-                let top = 0, left = 0;
-                if (placement === 'top') { top = rect.top - tRect.height - 8; left = rect.left + rect.width / 2 - tRect.width / 2; }
-                else if (placement === 'bottom') { top = rect.bottom + 8; left = rect.left + rect.width / 2 - tRect.width / 2; }
-                else if (placement === 'left') { top = rect.top + rect.height / 2 - tRect.height / 2; left = rect.left - tRect.width - 8; }
-                else { top = rect.top + rect.height / 2 - tRect.height / 2; left = rect.right + 8; }
-                tip.style.top = `${top}px`;
-                tip.style.left = `${left}px`;
-                tip.classList.add('oura-show');
+                const tRect = tooltip.getBoundingClientRect();
+                let top: number;
+                let left: number;
+                if (placement === 'top') {
+                    top = rect.top - tRect.height - 8;
+                    left = rect.left + rect.width / 2 - tRect.width / 2;
+                } else if (placement === 'bottom') {
+                    top = rect.bottom + 8;
+                    left = rect.left + rect.width / 2 - tRect.width / 2;
+                } else if (placement === 'left') {
+                    top = rect.top + rect.height / 2 - tRect.height / 2;
+                    left = rect.left - tRect.width - 8;
+                } else {
+                    top = rect.top + rect.height / 2 - tRect.height / 2;
+                    left = rect.right + 8;
+                }
+                tooltip.style.top = `${top}px`;
+                tooltip.style.left = `${left}px`;
+                tooltip.classList.add('oura-show');
             }, delay);
         };
-        const hide = () => { clearTimeout(timeout); tip.classList.remove('oura-show'); };
+        const hide = () => { clearTimeout(timeout); tooltip.classList.remove('oura-show'); };
 
         el.addEventListener('mouseenter', show);
         el.addEventListener('mouseleave', hide);
         el.addEventListener('focus', show);
         el.addEventListener('blur', hide);
 
-        return () => { el.removeEventListener('mouseenter', show); el.removeEventListener('mouseleave', hide); el.removeEventListener('focus', show); el.removeEventListener('blur', hide); tip.remove(); };
+        return () => { el.removeEventListener('mouseenter', show); el.removeEventListener('mouseleave', hide); el.removeEventListener('focus', show); el.removeEventListener('blur', hide); tooltip.remove(); };
     }
 
     // ── Popover ──
@@ -630,49 +844,60 @@ class OuraNotification {
         const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target;
         if (!el) return () => {};
 
-        const pop = document.createElement('div');
-        pop.className = 'oura-popover';
-        pop.style.position = 'fixed';
+        const popover = document.createElement('div');
+        popover.className = 'oura-popover';
+        this._applyThemeToElement(popover);
+        popover.id = `popover-${Date.now().toString(36)}`;
         let html = '';
         if (options.title) html += `<div class="oura-popover-header">${options.title}</div>`;
         html += `<div class="oura-popover-body">${options.html}</div>`;
         html += `<button class="oura-popover-close" aria-label="Close">&times;</button>`;
-        pop.innerHTML = html;
-        document.body.appendChild(pop);
+        popover.innerHTML = html;
+        document.body.appendChild(popover);
 
         let open = false;
         const placement = options.placement || 'bottom';
 
         const position = () => {
             const rect = el.getBoundingClientRect();
-            const pRect = pop.getBoundingClientRect();
-            let top = 0, left = 0;
-            if (placement === 'bottom') { top = rect.bottom + 8; left = rect.left + rect.width / 2 - pRect.width / 2; }
-            else if (placement === 'top') { top = rect.top - pRect.height - 8; left = rect.left + rect.width / 2 - pRect.width / 2; }
-            else if (placement === 'left') { top = rect.top + rect.height / 2 - pRect.height / 2; left = rect.left - pRect.width - 8; }
-            else { top = rect.top + rect.height / 2 - pRect.height / 2; left = rect.right + 8; }
-            pop.style.top = `${Math.max(8, top)}px`;
-            pop.style.left = `${Math.max(8, left)}px`;
+            const pRect = popover.getBoundingClientRect();
+            let top: number;
+            let left: number;
+            if (placement === 'bottom') {
+                top = rect.bottom + 8;
+                left = rect.left + rect.width / 2 - pRect.width / 2;
+            } else if (placement === 'top') {
+                top = rect.top - pRect.height - 8;
+                left = rect.left + rect.width / 2 - pRect.width / 2;
+            } else if (placement === 'left') {
+                top = rect.top + rect.height / 2 - pRect.height / 2;
+                left = rect.left - pRect.width - 8;
+            } else {
+                top = rect.top + rect.height / 2 - pRect.height / 2;
+                left = rect.right + 8;
+            }
+            popover.style.top = `${Math.max(8, top)}px`;
+            popover.style.left = `${Math.max(8, left)}px`;
         };
 
         const toggle = (e: Event) => {
             e.stopPropagation();
             open = !open;
-            if (open) { position(); requestAnimationFrame(() => pop.classList.add('oura-show')); }
-            else { pop.classList.remove('oura-show'); }
+            if (open) { position(); requestAnimationFrame(() => popover.classList.add('oura-show')); }
+            else { popover.classList.remove('oura-show'); }
         };
 
         const outsideClick = (e: Event) => {
-            if (open && options.closeOnClickOutside !== false && !pop.contains(e.target as Node) && !el.contains(e.target as Node)) {
-                open = false; pop.classList.remove('oura-show');
+            if (open && options.closeOnClickOutside !== false && !popover.contains(e.target as Node) && !el.contains(e.target as Node)) {
+                open = false; popover.classList.remove('oura-show');
             }
         };
 
         el.addEventListener('click', toggle);
         document.addEventListener('click', outsideClick);
-        pop.querySelector('.oura-popover-close')?.addEventListener('click', () => { open = false; pop.classList.remove('oura-show'); });
+        popover.querySelector('.oura-popover-close')?.addEventListener('click', () => { open = false; popover.classList.remove('oura-show'); });
 
-        return () => { el.removeEventListener('click', toggle); document.removeEventListener('click', outsideClick); pop.remove(); };
+        return () => { el.removeEventListener('click', toggle); document.removeEventListener('click', outsideClick); popover.remove(); };
     }
 
     // ── Dropdown Menu ──
@@ -683,6 +908,8 @@ class OuraNotification {
 
         const menu = document.createElement('div');
         menu.className = 'oura-dropdown';
+        this._applyThemeToElement(menu);
+        menu.id = `dropdown-${Date.now().toString(36)}`;
         menu.setAttribute('role', 'menu');
 
         options.items.forEach(item => {
@@ -758,6 +985,8 @@ class OuraNotification {
 
         const menu = document.createElement('div');
         menu.className = 'oura-context-menu';
+        this._applyThemeToElement(menu);
+        menu.id = `context-${Date.now().toString(36)}`;
         menu.setAttribute('role', 'menu');
 
         items.forEach(item => {
@@ -822,7 +1051,8 @@ class OuraNotification {
     // ── Inline Alert ──
     public alert(options: AlertOptions): HTMLElement {
         const alert = document.createElement('div');
-        alert.className = 'oura-alert';
+        alert.className = `oura-alert oura-alert-${options.variant || 'info'}`;
+        this._applyThemeToElement(alert);
         const variant = options.variant || 'default';
         if (variant !== 'default') alert.classList.add(`oura-alert-${variant}`);
         alert.setAttribute('role', 'alert');
@@ -839,13 +1069,20 @@ class OuraNotification {
         inner += `<div class="oura-alert-content">`;
         if (options.title) inner += `<div class="oura-alert-title">${options.title}</div>`;
         inner += `<div class="oura-alert-desc">${options.description}</div></div>`;
-        if (options.dismissible !== false) inner += `<button class="oura-alert-dismiss" aria-label="Dismiss">&times;</button>`;
         alert.innerHTML = inner;
 
-        alert.querySelector('.oura-alert-dismiss')?.addEventListener('click', () => {
-            alert.style.opacity = '0'; alert.style.transform = 'translateY(-8px)';
-            setTimeout(() => alert.remove(), 300);
-        });
+        if (options.dismissible !== false) {
+            const dismissBtn = document.createElement('button');
+            dismissBtn.type = 'button';
+            dismissBtn.className = 'oura-alert-dismiss';
+            dismissBtn.setAttribute('aria-label', options.dismissLabel ?? this.getI18n('dismiss'));
+            dismissBtn.innerHTML = '&times;';
+            dismissBtn.addEventListener('click', () => {
+                alert.style.opacity = '0'; alert.style.transform = 'translateY(-8px)';
+                setTimeout(() => alert.remove(), 300);
+            });
+            alert.appendChild(dismissBtn);
+        }
 
         const container = typeof options.container === 'string' ? document.querySelector(options.container) : options.container;
         (container || document.body).appendChild(alert);
@@ -883,6 +1120,7 @@ class OuraNotification {
 
         const card = document.createElement('div');
         card.className = 'oura-hover-card';
+        this._applyThemeToElement(card);
         card.innerHTML = options.html;
         document.body.appendChild(card);
 
@@ -895,7 +1133,8 @@ class OuraNotification {
         const position = () => {
             const rect = el.getBoundingClientRect();
             const cRect = card.getBoundingClientRect();
-            let top = 0, left = rect.left + rect.width / 2 - cRect.width / 2;
+            const left = rect.left + rect.width / 2 - cRect.width / 2;
+            let top: number;
             if (placement === 'bottom') top = rect.bottom + 10;
             else top = rect.top - cRect.height - 10;
             card.style.top = `${Math.max(8, top)}px`;
@@ -915,8 +1154,33 @@ class OuraNotification {
 }
 
 const Oura = new OuraNotification();
+
+declare global {
+    interface Window {
+        Oura?: typeof Oura;
+    }
+}
+
+export type {
+    AlertOptions,
+    OuraConfig,
+    OuraI18nStrings,
+    OuraOptions,
+    OuraPromiseMessages,
+    OuraResult,
+    OuraToastHandle,
+    ButtonConfig,
+    DropdownItem,
+    DropdownOptions,
+    HoverCardOptions,
+    PopoverOptions,
+    SkeletonOptions,
+    ToastAction,
+    TooltipOptions,
+} from './types';
+
 export default Oura;
 
 if (typeof window !== 'undefined') {
-    (window as any).Oura = Oura;
+    window.Oura = Oura;
 }

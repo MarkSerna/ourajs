@@ -315,6 +315,7 @@ export const injectStyles = (): void => {
             cursor: pointer;
             overflow: hidden;
             box-sizing: border-box;
+            will-change: transform, opacity;
         }
         
         /* Drawer Styles */
@@ -332,6 +333,7 @@ export const injectStyles = (): void => {
             opacity: 0;
             pointer-events: auto;
             overflow-y: auto;
+            will-change: transform, opacity;
         }
 
         .oura-drawer-right { top: 0; right: 0; bottom: 0; width: 400px; transform: translateX(100%); border-left: 1px solid var(--oura-border); }

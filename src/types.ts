@@ -7,7 +7,7 @@ export interface OuraOptions {
     cancelButtonText?: string;
     showDenyButton?: boolean;
     denyButtonText?: string;
-    preConfirm?: (inputValue?: string) => Promise<any> | any;
+    preConfirm?: (inputValue?: string) => Promise<unknown> | unknown;
     allowOutsideClick?: boolean;
     timer?: number;
     type?: 'toast' | 'progress';
@@ -30,12 +30,28 @@ export interface ToastAction {
     onClick: () => void;
 }
 
+/** Promesa del toast con `update()` para cambiar título/texto/icono mientras está visible */
+export type OuraToastHandle = Promise<boolean> & {
+    update: (newOpts: Partial<OuraOptions>) => void;
+};
+
+/** Cadenas que puede sobrescribir `customI18n` por idioma */
+export interface OuraI18nStrings {
+    confirm?: string;
+    cancel?: string;
+    submit?: string;
+    continue?: string;
+    deny?: string;
+    /** Etiqueta del botón para cerrar alertas inline */
+    dismiss?: string;
+}
+
 export interface OuraConfig {
     theme?: 'light-glass' | 'dark-glass' | 'system';
     accent?: string;
     locale?: string;
     position?: 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
-    customI18n?: Record<string, { confirm?: string, cancel?: string, submit?: string, continue?: string, deny?: string }>;
+    customI18n?: Record<string, OuraI18nStrings>;
 }
 
 export interface OuraResult {
@@ -86,6 +102,8 @@ export interface AlertOptions {
     description: string;
     variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
     dismissible?: boolean;
+    /** Si se define, sustituye la etiqueta i18n del botón cerrar (p. ej. `aria-label`) */
+    dismissLabel?: string;
     container?: string | HTMLElement;
 }
 
@@ -102,4 +120,11 @@ export interface HoverCardOptions {
     placement?: 'top' | 'bottom';
     openDelay?: number;
     closeDelay?: number;
+}
+
+/** Mensajes mostrados por `Oura.promise()` en el toast seguimiento */
+export interface OuraPromiseMessages<T = unknown> {
+    loading: string;
+    success: string | ((data: T) => string);
+    error: string | ((err: unknown) => string);
 }

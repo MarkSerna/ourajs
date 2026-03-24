@@ -526,9 +526,9 @@
                 <div class="logo-icon"></div>
                 Oura.js
             </div>
-            <p class="logo-sub">v1.3.0 "Glass Edition" · Glassmorphism UI Engine</p>
+            <p class="logo-sub" data-t="logo_sub">v1.3.0 "Glass Edition" · Glassmorphism UI Engine</p>
 
-            <div class="section-title">Toast Position</div>
+            <div class="section-title" data-t="section_pos">Toast Position</div>
             <div id="pos-grid">
                 <button class="pos-btn" data-pos="top-left">TL</button>
                 <button class="pos-btn" data-pos="top-center">TC</button>
@@ -538,43 +538,43 @@
                 <button class="pos-btn" data-pos="bottom-right">BR</button>
             </div>
 
-            <div class="section-title">Layouts</div>
+            <div class="section-title" data-t="section_layouts">Layouts</div>
             <div class="grid-controls">
                 <button class="btn" id="trigger-drawer">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="18" height="18" rx="2" />
                         <line x1="15" y1="3" x2="15" y2="21" />
                     </svg>
-                    Side Drawer
+                    <span data-t="btn_drawer">Side Drawer</span>
                 </button>
                 <button class="btn" id="trigger-confirm">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                         <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
-                    Confirm
+                    <span data-t="btn_confirm">Confirm</span>
                 </button>
                 <button class="btn" id="trigger-prompt">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                     </svg>
-                    Prompt
+                    <span data-t="btn_prompt">Prompt</span>
                 </button>
                 <button class="btn" id="trigger-stack">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                     </svg>
-                    3D Stack
+                    <span data-t="btn_stack">3D Stack</span>
                 </button>
             </div>
 
-            <div class="section-title">Async</div>
+            <div class="section-title" data-t="section_async">Async</div>
             <div class="grid-controls">
                 <button class="btn" id="trigger-promise">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                     </svg>
-                    Promise
+                    <span data-t="btn_promise">Promise</span>
                 </button>
                 <button class="btn" id="trigger-async">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -582,29 +582,28 @@
                         <line x1="12" y1="8" x2="12" y2="12" />
                         <line x1="12" y1="16" x2="12.01" y2="16" />
                     </svg>
-                    Async SWAL
+                    <span data-t="btn_async">Async SWAL</span>
                 </button>
             </div>
 
-            <div class="section-title">Theme</div>
+            <div class="section-title" data-t="section_theme">Theme</div>
             <div class="theme-strip">
-                <button class="btn" id="theme-light">☀️ Light</button>
-                <button class="btn" id="theme-dark">🌙 Dark</button>
-                <button class="btn" id="theme-system">⚡ System</button>
+                <button class="btn" id="theme-light"><span data-t="btn_light">☀️ Light</span></button>
+                <button class="btn" id="theme-dark"><span data-t="btn_dark">🌙 Dark</span></button>
+                <button class="btn" id="theme-system"><span data-t="btn_system">⚡ System</span></button>
             </div>
         </aside>
 
         <!-- MAIN CONTENT -->
         <main class="main-content">
             <div class="hero">
-                <h1>Oura.js Playground</h1>
-                <p>An interactive playground for the glassmorphism notification engine. Click any demo to fire it live.
-                </p>
+                <h1 data-t="hero_title">Oura.js Playground</h1>
+                <p data-t="hero_desc">An interactive playground for the glassmorphism notification engine. Click any demo to fire it live.</p>
             </div>
 
             <!-- LIVE CODE SNIPPET -->
             <div class="glass-card">
-                <h2>Live Code Preview</h2>
+                <h2 data-t="card_code">Live Code Preview</h2>
                 <div class="mockup-code" id="code-snippet"><span class="cmt">// Current configuration</span>
                     <span class="fn">Oura</span>.<span class="fn">configure</span>({
                     <span class="str">position</span>: <span class="str">'top-right'</span>,
@@ -615,36 +614,36 @@
 
             <!-- DEMO CARDS -->
             <div class="glass-card">
-                <h2>🔔 Toast Notifications</h2>
+                <h2 data-t="card_notifications">🔔 Toast Notifications</h2>
                 <div class="demo-grid">
                     <div class="demo-card" id="demo-success">
                         <div class="demo-icon">✅</div>
-                        <div class="demo-label">Success</div>
+                        <div class="demo-label" data-t="demo_success_label">Success</div>
                         <div class="demo-sub">Oura.success()</div>
                     </div>
                     <div class="demo-card" id="demo-error">
                         <div class="demo-icon">❌</div>
-                        <div class="demo-label">Error</div>
+                        <div class="demo-label" data-t="demo_error_label">Error</div>
                         <div class="demo-sub">Oura.error()</div>
                     </div>
                     <div class="demo-card" id="demo-warning">
                         <div class="demo-icon">⚠️</div>
-                        <div class="demo-label">Warning</div>
+                        <div class="demo-label" data-t="demo_warning_label">Warning</div>
                         <div class="demo-sub">Oura.warning()</div>
                     </div>
                     <div class="demo-card" id="demo-info">
                         <div class="demo-icon">ℹ️</div>
-                        <div class="demo-label">Info</div>
+                        <div class="demo-label" data-t="demo_info_label">Info</div>
                         <div class="demo-sub">Oura.info()</div>
                     </div>
                     <div class="demo-card" id="demo-progress">
                         <div class="demo-icon">⏳</div>
-                        <div class="demo-label">Progress</div>
+                        <div class="demo-label" data-t="demo_progress_label">Progress</div>
                         <div class="demo-sub">type: 'progress'</div>
                     </div>
                     <div class="demo-card" id="demo-fire">
                         <div class="demo-icon">🔥</div>
-                        <div class="demo-label">Custom Modal</div>
+                        <div class="demo-label" data-t="demo_modal_label">Custom Modal</div>
                         <div class="demo-sub">Oura.fire()</div>
                     </div>
                 </div>
@@ -652,48 +651,48 @@
 
             <!-- FEATURES -->
             <div class="glass-card">
-                <h2>✨ Key Features</h2>
+                <h2 data-t="card_features">✨ Key Features</h2>
                 <div class="features-grid">
                     <div class="feature-item">
                         <div class="feature-emoji">🧊</div>
                         <div>
-                            <div class="feature-title">Glassmorphism</div>
-                            <div class="feature-desc">Premium translucent UI with backdrop-blur and soft shadows.</div>
+                            <div class="feature-title" data-t="feature_glass_title">Glassmorphism</div>
+                            <div class="feature-desc" data-t="feature_glass_desc">Premium translucent UI with backdrop-blur and soft shadows.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-emoji">🌗</div>
                         <div>
-                            <div class="feature-title">System Theme Sync</div>
-                            <div class="feature-desc">Automatically follows the OS light/dark preference.</div>
+                            <div class="feature-title" data-t="feature_theme_title">System Theme Sync</div>
+                            <div class="feature-desc" data-t="feature_theme_desc">Automatically follows the OS light/dark preference.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-emoji">📐</div>
                         <div>
-                            <div class="feature-title">6-Point Positioning</div>
-                            <div class="feature-desc">Place toasts at any corner or center edge of the screen.</div>
+                            <div class="feature-title" data-t="feature_pos_title">6-Point Positioning</div>
+                            <div class="feature-desc" data-t="feature_pos_desc">Place toasts at any corner or center edge of the screen.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-emoji">🌍</div>
                         <div>
-                            <div class="feature-title">i18n Ready</div>
-                            <div class="feature-desc">10 built-in locales + custom language support.</div>
+                            <div class="feature-title" data-t="feature_i18n_title">i18n Ready</div>
+                            <div class="feature-desc" data-t="feature_i18n_desc">10 built-in locales + custom language support.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-emoji">⚡</div>
                         <div>
-                            <div class="feature-title">Zero Dependencies</div>
-                            <div class="feature-desc">Pure TypeScript, ~5kB gzipped. No React, Vue, or jQuery.</div>
+                            <div class="feature-title" data-t="feature_deps_title">Zero Dependencies</div>
+                            <div class="feature-desc" data-t="feature_deps_desc">Pure TypeScript, ~5kB gzipped. No React, Vue, or jQuery.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-emoji">♿</div>
                         <div>
-                            <div class="feature-title">Accessible</div>
-                            <div class="feature-desc">Full WAI-ARIA, Escape key, Focus Trapping & reduced-motion
+                            <div class="feature-title" data-t="feature_access_title">Accessible</div>
+                            <div class="feature-desc" data-t="feature_access_desc">Full WAI-ARIA, Escape key, Focus Trapping & reduced-motion
                                 support.</div>
                         </div>
                     </div>
@@ -705,14 +704,180 @@
     <script type="module">
         import Oura from '/src/index.ts';
 
-        // ── Theme toggle ──
-        let currentTheme = 'light-glass';
-        document.getElementById('theme-toggle').onclick = () => {
-            currentTheme = currentTheme === 'light-glass' ? 'dark-glass' : 'light-glass';
-            Oura.configure({ theme: currentTheme });
+        // ── Translations ──
+        const translations = {
+            en: {
+                logo_sub: 'v1.3.0 "Glass Edition" · Glassmorphism UI Engine',
+                section_pos: 'Toast Position',
+                section_layouts: 'Layouts',
+                btn_drawer: 'Side Drawer',
+                btn_confirm: 'Confirm',
+                btn_prompt: 'Prompt',
+                btn_stack: '3D Stack',
+                section_async: 'Async',
+                btn_promise: 'Promise',
+                btn_async: 'Async SWAL',
+                section_theme: 'Theme',
+                btn_light: '☀️ Light',
+                btn_dark: '🌙 Dark',
+                btn_system: '⚡ System',
+                hero_title: 'Oura.js Playground',
+                hero_desc: 'An interactive playground for the glassmorphism notification engine. Click any demo to fire it live.',
+                card_code: 'Live Code Preview',
+                card_notifications: '🔔 Toast Notifications',
+                demo_success_label: 'Success',
+                demo_error_label: 'Error',
+                demo_warning_label: 'Warning',
+                demo_info_label: 'Info',
+                demo_progress_label: 'Progress',
+                demo_modal_label: 'Custom Modal',
+                card_features: '✨ Key Features',
+                feature_glass_title: 'Glassmorphism',
+                feature_glass_desc: 'Premium translucent UI with backdrop-blur and soft shadows.',
+                feature_theme_title: 'System Theme Sync',
+                feature_theme_desc: 'Automatically follows the OS light/dark preference.',
+                feature_pos_title: '6-Point Positioning',
+                feature_pos_desc: 'Place toasts at any corner or center edge of the screen.',
+                feature_i18n_title: 'i18n Ready',
+                feature_i18n_desc: '10 built-in locales + custom language support.',
+                feature_deps_title: 'Zero Dependencies',
+                feature_deps_desc: 'Pure TypeScript, ~5kB gzipped. No React, Vue, or jQuery.',
+                feature_access_title: 'Accessible',
+                feature_access_desc: 'Full WAI-ARIA, Escape key, Focus Trapping & reduced-motion support.',
+                drawer_title: 'User Preferences',
+                drawer_p: 'Manage your application settings from this side panel.',
+                drawer_notif: 'Enable Notifications',
+                drawer_beta: 'Beta Features',
+                drawer_save: 'Save Settings',
+                drawer_success: 'Settings saved!',
+                confirm_title: 'Delete Workspace?',
+                confirm_text: 'This action cannot be undone.',
+                confirm_success: 'Workspace deleted!',
+                confirm_cancel: 'Action cancelled.',
+                prompt_title: 'Enter your email',
+                prompt_text: 'We will send a reset link.',
+                prompt_success: 'Link sent!',
+                prompt_dispatched: 'Dispatched to',
+                promise_loading: 'Fetching data...',
+                promise_received: 'Received:',
+                promise_failed: 'Failed:',
+                auth_title: 'Authentication Required',
+                auth_text: 'Type "unlock" to proceed.',
+                auth_invalid: 'Invalid access code',
+                auth_granted: 'Access granted!',
+                toast_lang_updated: 'Language updated',
+                toast_pos_updated: 'Position updated',
+                toast_pos_text: 'Anchored to',
+                demo_success_msg: 'Profile saved successfully.',
+                demo_error_msg: 'Failed to connect to server.',
+                demo_warning_msg: 'Disk space running low.',
+                demo_info_msg: 'A new version is available.',
+                demo_progress_title: 'Uploading files...',
+                demo_fire_text: 'This fires a fully customizable glassmorphic modal.',
+                demo_fire_btn: 'Got it!'
+            },
+            es: {
+                logo_sub: 'v1.3.0 "Glass Edition" · Motor de UI Glassmorphism',
+                section_pos: 'Posición del Toast',
+                section_layouts: 'Diseños',
+                btn_drawer: 'Panel Lateral',
+                btn_confirm: 'Confirmar',
+                btn_prompt: 'Entrada',
+                btn_stack: 'Pila 3D',
+                section_async: 'Asíncrono',
+                btn_promise: 'Promesa',
+                btn_async: 'SWAL Asíncrono',
+                section_theme: 'Tema',
+                btn_light: '☀️ Claro',
+                btn_dark: '🌙 Oscuro',
+                btn_system: '⚡ Sistema',
+                hero_title: 'Oura.js Playground',
+                hero_desc: 'Un patio de juegos interactivo para el motor de notificaciones glassmorphism. Haz clic en cualquier demo para verla en vivo.',
+                card_code: 'Vista Previa del Código',
+                card_notifications: '🔔 Notificaciones Toast',
+                demo_success_label: 'Éxito',
+                demo_error_label: 'Error',
+                demo_warning_label: 'Advertencia',
+                demo_info_label: 'Información',
+                demo_progress_label: 'Progreso',
+                demo_modal_label: 'Modal Personalizado',
+                card_features: '✨ Características Clave',
+                feature_glass_title: 'Glassmorphism',
+                feature_glass_desc: 'Interfaz translúcida premium con desenfoque de fondo y sombras suaves.',
+                feature_theme_title: 'Sincronización de Tema',
+                feature_theme_desc: 'Sigue automáticamente la preferencia del sistema operativo.',
+                feature_pos_title: 'Posicionamiento de 6 Puntos',
+                feature_pos_desc: 'Coloca toasts en cualquier esquina o centro de la pantalla.',
+                feature_i18n_title: 'Listo para i18n',
+                feature_i18n_desc: '10 locales integrados + soporte para idiomas personalizados.',
+                feature_deps_title: 'Cero Dependencias',
+                feature_deps_desc: 'TypeScript puro, ~5kB comprimido. Sin React, Vue o jQuery.',
+                feature_access_title: 'Accesible',
+                feature_access_desc: 'Soporte completo para WAI-ARIA, tecla Escape, bloqueo de foco y movimiento reducido.',
+                drawer_title: 'Preferencias de Usuario',
+                drawer_p: 'Gestiona la configuración de tu aplicación desde este panel lateral.',
+                drawer_notif: 'Activar Notificaciones',
+                drawer_beta: 'Funciones Beta',
+                drawer_save: 'Guardar Cambios',
+                drawer_success: '¡Ajustes guardados!',
+                confirm_title: '¿Eliminar espacio de trabajo?',
+                confirm_text: 'Esta acción no se puede deshacer.',
+                confirm_success: '¡Espacio de trabajo eliminado!',
+                confirm_cancel: 'Acción cancelada.',
+                prompt_title: 'Introduce tu email',
+                prompt_text: 'Te enviaremos un enlace de restablecimiento.',
+                prompt_success: '¡Enlace enviado!',
+                prompt_dispatched: 'Enviado a',
+                promise_loading: 'Cargando datos...',
+                promise_received: 'Recibido:',
+                promise_failed: 'Falló:',
+                auth_title: 'Autenticación Requerida',
+                auth_text: 'Escribe "unlock" para proceder.',
+                auth_invalid: 'Código de acceso no válido',
+                auth_granted: '¡Acceso concedido!',
+                toast_lang_updated: 'Idioma actualizado',
+                toast_pos_updated: 'Posición actualizada',
+                toast_pos_text: 'Anclado en',
+                demo_success_msg: 'Perfil guardado con éxito.',
+                demo_error_msg: 'Error al conectar con el servidor.',
+                demo_warning_msg: 'Espacio en disco bajo.',
+                demo_info_msg: 'Hay una nueva versión disponible.',
+                demo_progress_title: 'Subiendo archivos...',
+                demo_fire_text: 'Esto lanza un modal glassmorphic totalmente personalizable.',
+                demo_fire_btn: '¡Entendido!'
+            }
         };
-        document.getElementById('theme-light').onclick = () => { currentTheme = 'light-glass'; Oura.configure({ theme: 'light-glass' }); };
-        document.getElementById('theme-dark').onclick = () => { currentTheme = 'dark-glass'; Oura.configure({ theme: 'dark-glass' }); };
+
+        let currentLang = 'en';
+        const t = (key) => translations[currentLang][key] || key;
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            Oura.configure({ locale: lang });
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                el.innerHTML = t(key);
+            });
+        }
+
+        // ── Theme toggle (App/System-wide) ──
+        const html = document.documentElement;
+        const setAppTheme = (theme) => {
+            if (theme === 'dark-glass') html.classList.add('oura-dark-glass');
+            else html.classList.remove('oura-dark-glass');
+        };
+
+        let appTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-glass' : 'light-glass';
+        setAppTheme(appTheme);
+
+        document.getElementById('theme-toggle').onclick = () => {
+            appTheme = appTheme === 'light-glass' ? 'dark-glass' : 'light-glass';
+            setAppTheme(appTheme);
+        };
+
+        // ── Oura Theme (Notification level only) ──
+        document.getElementById('theme-light').onclick = () => Oura.configure({ theme: 'light-glass' });
+        document.getElementById('theme-dark').onclick = () => Oura.configure({ theme: 'dark-glass' });
         document.getElementById('theme-system').onclick = () => Oura.configure({ theme: 'system' });
 
         // ── Position grid ──
@@ -723,48 +888,48 @@
                 btn.classList.add('active');
                 const pos = btn.dataset.pos;
                 Oura.configure({ position: pos });
-                Oura.toast({ title: 'Position updated', text: `Anchored to ${pos}`, icon: 'success' });
+                Oura.toast({ title: t('toast_pos_updated'), text: `${t('toast_pos_text')} ${pos}`, icon: 'success' });
                 document.getElementById('code-snippet').innerHTML =
                     `<span class="cmt">// Updated configuration</span>\n<span class="fn">Oura</span>.<span class="fn">configure</span>({\n  <span class="str">position</span>: <span class="str">'${pos}'</span>,\n  <span class="str">theme</span>: <span class="str">'system'</span>\n});`;
             };
         });
 
         // ── Toast demos ──
-        document.getElementById('demo-success').onclick = () => Oura.success('Success!', 'Profile saved successfully.');
-        document.getElementById('demo-error').onclick = () => Oura.error('Error!', 'Failed to connect to server.');
-        document.getElementById('demo-warning').onclick = () => Oura.warning('Warning', 'Disk space running low.');
-        document.getElementById('demo-info').onclick = () => Oura.info('Info', 'A new version is available.');
-        document.getElementById('demo-progress').onclick = () => Oura.toast({ title: 'Uploading files...', type: 'progress', timer: 4000, icon: 'progress' });
-        document.getElementById('demo-fire').onclick = () => Oura.fire({ title: 'Custom Modal', text: 'This fires a fully customizable glassmorphic modal.', icon: 'info', confirmButtonText: 'Got it!' });
+        document.getElementById('demo-success').onclick = () => Oura.success(t('demo_success_label') + '!', t('demo_success_msg'));
+        document.getElementById('demo-error').onclick = () => Oura.error(t('demo_error_label') + '!', t('demo_error_msg'));
+        document.getElementById('demo-warning').onclick = () => Oura.warning(t('demo_warning_label'), t('demo_warning_msg'));
+        document.getElementById('demo-info').onclick = () => Oura.info(t('demo_info_label'), t('demo_info_msg'));
+        document.getElementById('demo-progress').onclick = () => Oura.toast({ title: t('demo_progress_title'), type: 'progress', timer: 4000, icon: 'progress' });
+        document.getElementById('demo-fire').onclick = () => Oura.fire({ title: t('demo_modal_label'), text: t('demo_fire_text'), icon: 'info', confirmButtonText: t('demo_fire_btn') });
 
         // ── Layout triggers ──
         document.getElementById('trigger-drawer').onclick = () => {
             Oura.drawer({
-                title: 'User Preferences',
+                title: t('drawer_title'),
                 side: 'right',
                 width: '440px',
                 html: `<div style="display:flex;flex-direction:column;gap:20px;">
-                    <p style="color:#64748b">Manage your application settings from this side panel.</p>
+                    <p style="color:#64748b">${t('drawer_p')}</p>
                     <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-                        <input type="checkbox" checked> Enable Notifications
+                        <input type="checkbox" checked> ${t('drawer_notif')}
                     </label>
                     <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-                        <input type="checkbox"> Beta Features
+                        <input type="checkbox"> ${t('drawer_beta')}
                     </label>
                 </div>`,
-                confirmButtonText: 'Save Settings'
-            }).then(r => { if (r.isConfirmed) Oura.success('Settings saved!'); });
+                confirmButtonText: t('drawer_save')
+            }).then(r => { if (r.isConfirmed) Oura.success(t('drawer_success')); });
         };
 
         document.getElementById('trigger-confirm').onclick = async () => {
-            const r = await Oura.confirm('Delete Workspace?', 'This action cannot be undone.');
-            if (r.isConfirmed) Oura.success('Workspace deleted!');
-            else Oura.info('Action cancelled.');
+            const r = await Oura.confirm(t('confirm_title'), t('confirm_text'));
+            if (r.isConfirmed) Oura.success(t('confirm_success'));
+            else Oura.info(t('confirm_cancel'));
         };
 
         document.getElementById('trigger-prompt').onclick = async () => {
-            const r = await Oura.prompt('Enter your email', 'We will send a reset link.', 'email');
-            if (r.isConfirmed && r.value) Oura.success('Link sent!', `Dispatched to ${r.value}`);
+            const r = await Oura.prompt(t('prompt_title'), t('prompt_text'), 'email');
+            if (r.isConfirmed && r.value) Oura.success(t('prompt_success'), `${t('prompt_dispatched')} ${r.value}`);
         };
 
         document.getElementById('trigger-stack').onclick = () => {
@@ -775,19 +940,19 @@
         // ── Async ──
         document.getElementById('trigger-promise').onclick = () => {
             const p = new Promise((res, rej) => setTimeout(() => Math.random() > 0.3 ? res('v1.3.0 payload') : rej('Timeout 404'), 2000));
-            Oura.promise(p, { loading: 'Fetching data...', success: d => `Received: ${d}`, error: e => `Failed: ${e}` });
+            Oura.promise(p, { loading: t('promise_loading'), success: d => `${t('promise_received')} ${d}`, error: e => `${t('promise_failed')} ${e}` });
         };
 
         document.getElementById('trigger-async').onclick = async () => {
             const res = await Oura.prompt({
-                title: 'Authentication Required',
-                text: 'Type "unlock" to proceed.',
+                title: t('auth_title'),
+                text: t('auth_text'),
                 preConfirm: async (val) => {
                     await new Promise(r => setTimeout(r, 1000));
-                    if (val !== 'unlock') throw new Error('Invalid access code');
+                    if (val !== 'unlock') throw new Error(t('auth_invalid'));
                 }
             });
-            if (res.isConfirmed) Oura.success('Access granted!');
+            if (res.isConfirmed) Oura.success(t('auth_granted'));
         };
 
         // ── Language selector ──
@@ -799,13 +964,25 @@
 
         document.querySelectorAll('.custom-option').forEach(opt => {
             opt.onclick = () => {
-                Oura.configure({ locale: opt.dataset.value });
+                const lang = opt.dataset.value;
+                updateLanguage(lang);
                 langTrigger.innerHTML = opt.innerHTML;
                 langWrapper.classList.remove('open');
-                Oura.toast({ title: 'Language updated', icon: 'success' });
+                Oura.toast({ title: t('toast_lang_updated'), icon: 'success' });
             };
         });
 
+        // Set initial language from browser or default to English
+        const browserLang = navigator.language.split('-')[0];
+        if (translations[browserLang]) {
+            updateLanguage(browserLang);
+            const initialOpt = document.querySelector(`.custom-option[data-value="${browserLang}"]`);
+            if (initialOpt) langTrigger.innerHTML = initialOpt.innerHTML;
+        } else {
+            updateLanguage('en'); // Default to English if browser language not supported
+            const initialOpt = document.querySelector(`.custom-option[data-value="en"]`);
+            if (initialOpt) langTrigger.innerHTML = initialOpt.innerHTML;
+        }
     </script>
 </body>
 

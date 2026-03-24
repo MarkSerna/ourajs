@@ -14,6 +14,13 @@ const cleanup = Oura.contextMenu('#my-area', [
 ]);
 ```
 
+<OuraDemo label="▶ Try Context Menu (Right Click!)" :fn="(Oura, el) => Oura.contextMenu(el, [
+  { label: 'Copy Link', icon: '🔗', onClick: () => Oura.success('Copied') },
+  { label: 'Open in New Tab', icon: '↗️', onClick: () => Oura.info('Opening') },
+  { separator: true },
+  { label: 'Delete', danger: true, onClick: () => Oura.error('Deleted') }
+])" />
+
 ## Item Options
 
 Same as [Dropdown Menu](/guide/dropdowns) items — supports `label`, `icon`, `shortcut`, `separator`, `disabled`, `danger`, and `onClick`.

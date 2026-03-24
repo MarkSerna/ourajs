@@ -2,15 +2,26 @@
   "name": "oura-js",
   "version": "1.0.0",
   "description": "A modern, glassmorphic notification library powered by ES6+ and TypeScript",
-  "main": "./dist/oura.umd.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MarkSerna/ourajs.git"
+  },
+  "homepage": "https://markserna.github.io/ourajs/",
+  "bugs": {
+    "url": "https://github.com/MarkSerna/ourajs/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/oura.umd.cjs",
   "module": "./dist/oura.js",
   "types": "./dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/oura.js",
-      "require": "./dist/oura.umd.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/oura.umd.cjs"
     }
   },
   "scripts": {
@@ -18,6 +29,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs"
   },
@@ -32,9 +45,14 @@
   "author": "Oura Team",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.4.1",
+    "@vitest/coverage-v8": "^4.1.1",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
     "jsdom": "^29.0.0",
     "typescript": "^5.2.2",
+    "typescript-eslint": "^8.57.2",
     "vite": "^5.0.0",
     "vite-plugin-dts": "^3.7.0",
     "vitepress": "^1.6.4",

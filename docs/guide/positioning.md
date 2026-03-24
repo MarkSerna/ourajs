@@ -1,7 +1,3 @@
-<script setup>
-import OuraDemo from '../components/OuraDemo.vue'
-</script>
-
 # Toast Positioning
 
 Oura supports **6 anchor positions** for your toast notifications. Configure globally once and all toasts will appear there.
@@ -43,7 +39,10 @@ Oura.configure({ position: 'bottom-center' });
 Oura.success('Anchored to bottom-center!');
 ```
 
-<OuraDemo type="success" label="▶ Fire a Toast" />
+<OuraDemo label="▶ Fire a Toast" :fn="(Oura) => {
+  Oura.configure({ position: 'bottom-center' });
+  Oura.success('Anchored to bottom-center!');
+}" />
 
 ## Stacking Behavior
 

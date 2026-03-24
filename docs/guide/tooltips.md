@@ -11,6 +11,8 @@ const cleanup = Oura.tooltip('#my-button', {
 });
 ```
 
+<OuraDemo label="▶ Try Tooltip" :fn="(Oura, el) => Oura.tooltip(el, { content: 'This is a glassmorphic tooltip!', placement: 'top' })" />
+
 ## Options
 
 | Option | Type | Default | Description |

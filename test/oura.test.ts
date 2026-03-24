@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import Oura from '../src/index';
 import { injectStyles } from '../src/styles';
+import { setPrefersColorSchemeDark } from './setup';
 
 describe('OuraNotification UI Tests', () => {
     beforeEach(() => {
@@ -44,6 +45,13 @@ describe('OuraNotification UI Tests', () => {
         expect(btns.length).toBe(2);
         expect(btns[0].textContent).toBe('Cancelar');
         expect(btns[1].textContent).toBe('Confirmar');
+    });
+
+    it('should expose update() on toast handle', () => {
+        const handle = Oura.toast({ title: 'Old', timer: 60_000 });
+        expect(typeof handle.update).toBe('function');
+        handle.update({ title: 'New' });
+        expect(document.querySelector('.oura-toast-title')?.textContent).toBe('New');
     });
 
     it('should generate a toast with correct ARIA roles', async () => {
@@ -111,6 +119,19 @@ describe('OuraNotification UI Tests', () => {
         expect(toast?.textContent).toContain('Success!');
     });
 
+    it('should pass rejection to Oura.promise error handler and show message', async () => {
+        const failing = Promise.reject(new Error('boom'));
+        const op = Oura.promise(failing, {
+            loading: 'Wait',
+            success: 'OK',
+            error: (err: unknown) => (err instanceof Error ? err.message : String(err)),
+        });
+
+        await expect(op).rejects.toThrow('boom');
+        const toast = document.querySelector('.oura-toast');
+        expect(toast?.textContent).toContain('boom');
+    });
+
     it('should update toast container position', () => {
         Oura.configure({ position: 'bottom-center' });
         const container = document.getElementById('oura-toast-container');
@@ -126,10 +147,51 @@ describe('OuraNotification UI Tests', () => {
     });
 
     it('should apply themes correctly including dark mode', () => {
+        const container = document.getElementById('oura-toast-container');
+        expect(container).toBeTruthy();
         Oura.configure({ theme: 'dark-glass' });
-        expect(document.documentElement.classList.contains('oura-dark-glass')).toBe(true);
+        expect(container?.classList.contains('oura-dark-glass')).toBe(true);
         Oura.configure({ theme: 'light-glass' });
-        expect(document.documentElement.classList.contains('oura-dark-glass')).toBe(false);
+        expect(container?.classList.contains('oura-dark-glass')).toBe(false);
+    });
+
+    it('should apply system theme from prefers-color-scheme', () => {
+        const container = document.getElementById('oura-toast-container');
+        expect(container).toBeTruthy();
+        setPrefersColorSchemeDark(true);
+        Oura.configure({ theme: 'system' });
+        expect(container?.classList.contains('oura-dark-glass')).toBe(true);
+        setPrefersColorSchemeDark(false);
+        Oura.configure({ theme: 'system' });
+        expect(container?.classList.contains('oura-dark-glass')).toBe(false);
+        Oura.configure({ theme: 'light-glass' });
+    });
+
+    it('should use i18n aria-label for alert dismiss and allow dismissLabel override', () => {
+        Oura.configure({ locale: 'es' });
+        Oura.alert({ description: 'Msg', variant: 'info' });
+        let dismiss = document.querySelector('.oura-alert-dismiss') as HTMLButtonElement;
+        expect(dismiss.getAttribute('aria-label')).toBe('Cerrar');
+
+        Oura.alert({ description: 'Otro', dismissLabel: 'Quitar aviso' });
+        dismiss = document.querySelectorAll('.oura-alert-dismiss')[1] as HTMLButtonElement;
+        expect(dismiss.getAttribute('aria-label')).toBe('Quitar aviso');
+    });
+
+    it('should restore focus to the previously focused element after closing a modal', async () => {
+        const trigger = document.createElement('button');
+        trigger.textContent = 'Open';
+        document.body.appendChild(trigger);
+        trigger.focus();
+        expect(document.activeElement).toBe(trigger);
+
+        const promise = Oura.fire({ title: 'Focus test' });
+        const btn = document.querySelector('.oura-modal .oura-btn') as HTMLButtonElement;
+        expect(document.activeElement).not.toBe(trigger);
+        btn.click();
+
+        await promise;
+        expect(document.activeElement).toBe(trigger);
     });
 
     it('should add closing classes during modal exit animation', async () => {

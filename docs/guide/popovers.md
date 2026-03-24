@@ -12,6 +12,8 @@ const cleanup = Oura.popover('#settings-btn', {
 });
 ```
 
+<OuraDemo label="▶ Try Popover" :fn="(Oura, el) => Oura.popover(el, { title: 'Quick Settings', html: 'Toggle features here...', placement: 'bottom' })" />
+
 ## Options
 
 | Option | Type | Default | Description |

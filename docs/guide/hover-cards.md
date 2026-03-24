@@ -14,6 +14,11 @@ const cleanup = Oura.hoverCard('#user-link', {
 });
 ```
 
+<OuraDemo label="▶ Hover me for Card" :fn="(Oura, el) => Oura.hoverCard(el, {
+  html: '<strong>Premium UX</strong><p>Swipe gestures enabled!</p>',
+  placement: 'top'
+})" />
+
 ## Options
 
 | Option | Type | Default | Description |

@@ -13,6 +13,13 @@ const el = Oura.skeleton({
 });
 ```
 
+<OuraDemo label="▶ Generate Skeleton" :fn="(Oura) => Oura.skeleton({
+  variant: 'rectangular',
+  width: '100%',
+  height: '80px',
+  container: 'body'
+})" />
+
 ## Variants
 
 ```js
