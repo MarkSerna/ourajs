@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, shallowRef, computed, watch } from 'vue';
-import { useData } from 'vitepress';
+import { useData, withBase } from 'vitepress';
 
 const { lang } = useData();
 
@@ -8,6 +8,14 @@ const Oura = shallowRef(null);
 const currentTheme = ref('light-glass');
 const activePos = ref('top-right');
 const codeSnippet = ref('');
+const isLangOpen = ref(false);
+
+const toggleAppTheme = () => {
+  const html = document.documentElement;
+  html.classList.toggle('dark');
+};
+
+const getBase = (path) => withBase(path);
 
 // ── Translations ──
 const translations = {
@@ -238,10 +246,60 @@ const positions = [
 </script>
 
 <template>
-  <div class="pg-root">
+  <div class="pg-root" @click="isLangOpen = false">
+    <!-- TOP BAR -->
+    <div class="pg-top-bar">
+      <a
+        :href="
+          getBase(currentLang === 'es' ? '/es/guide/getting-started' : '/guide/getting-started')
+        "
+        class="pg-btn pg-docs-btn"
+      >
+        📘 {{ currentLang === 'es' ? 'Documentación' : 'Documentation' }}
+      </a>
+      <div
+        class="pg-custom-select-wrapper"
+        :class="{ open: isLangOpen }"
+        @click.stop="isLangOpen = !isLangOpen"
+      >
+        <div class="pg-custom-select-trigger">
+          <img
+            :src="
+              currentLang === 'es'
+                ? 'https://flagcdn.com/w20/es.png'
+                : 'https://flagcdn.com/w20/gb.png'
+            "
+            alt="Flag"
+          />
+          {{ currentLang === 'es' ? 'Español' : 'English' }}
+        </div>
+        <div class="pg-custom-options">
+          <a :href="getBase('/')" class="pg-custom-option" @click.stop>
+            <img src="https://flagcdn.com/w20/gb.png" alt="" /> English
+          </a>
+          <a :href="getBase('/es/')" class="pg-custom-option" @click.stop>
+            <img src="https://flagcdn.com/w20/es.png" alt="" /> Español
+          </a>
+        </div>
+      </div>
+      <button class="pg-icon-btn" @click.stop="toggleAppTheme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      </button>
+    </div>
+
     <div class="pg-layout">
       <!-- SIDEBAR -->
-      <aside class="pg-sidebar">
+      <aside class="pg-sidebar" @click.stop>
         <div class="pg-logo">
           <div class="pg-logo-icon"></div>
           Oura.js
@@ -419,6 +477,149 @@ const positions = [
     radial-gradient(circle at 90% 80%, #f5f3ff, transparent 40%), #f8fafc;
   min-height: 100vh;
   color: #1e293b;
+  width: 100vw;
+  overflow-x: hidden;
+  transition:
+    background 0.5s ease,
+    color 0.5s ease;
+}
+
+html.dark .pg-root {
+  background:
+    radial-gradient(circle at 10% 20%, #1e1b4b, transparent 40%),
+    radial-gradient(circle at 90% 80%, #0f172a, transparent 40%), #0f172a;
+  color: #e2e8f0;
+}
+
+/* TOP BAR */
+.pg-top-bar {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pg-docs-btn {
+  width: auto !important;
+  margin: 0;
+  border-radius: 20px !important;
+  padding: 10px 18px !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-decoration: none;
+}
+.pg-docs-btn:hover {
+  text-decoration: none;
+}
+
+.pg-custom-select-wrapper {
+  position: relative;
+  user-select: none;
+}
+.pg-custom-select-trigger {
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+html.dark .pg-custom-select-trigger {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+}
+.pg-custom-select-trigger:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+html.dark .pg-custom-select-trigger:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.pg-custom-options {
+  position: absolute;
+  top: 115%;
+  right: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 150px;
+}
+html.dark .pg-custom-options {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.pg-custom-select-wrapper.open .pg-custom-options {
+  display: flex;
+}
+.pg-custom-option {
+  padding: 10px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s;
+}
+.pg-custom-option:hover {
+  background: rgba(59, 130, 246, 0.1);
+  text-decoration: none;
+}
+.pg-custom-select-trigger img,
+.pg-custom-option img {
+  width: 20px;
+  border-radius: 3px;
+}
+
+.pg-icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #475569;
+}
+html.dark .pg-icon-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+}
+.pg-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+html.dark .pg-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.pg-icon-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .pg-layout {
@@ -436,6 +637,11 @@ const positions = [
   position: sticky;
   top: 0;
   height: 100vh;
+  z-index: 10;
+}
+html.dark .pg-sidebar {
+  background: rgba(15, 23, 42, 0.6);
+  border-right-color: rgba(255, 255, 255, 0.08);
 }
 
 .pg-logo {
@@ -488,10 +694,18 @@ const positions = [
   font-size: 0.75rem;
   width: 100%;
 }
+html.dark .pg-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+}
 .pg-btn:hover {
   background: white;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+html.dark .pg-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 .pg-btn svg {
   width: 14px;
@@ -554,6 +768,10 @@ const positions = [
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
 }
+html.dark .pg-glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
 .pg-card-title {
   font-size: 0.9rem;
   margin-top: 0;
@@ -583,10 +801,17 @@ const positions = [
   cursor: pointer;
   transition: all 0.2s;
 }
+html.dark .pg-demo-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
 .pg-demo-card:hover {
   transform: translateY(-3px);
   background: white;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+html.dark .pg-demo-card:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 .pg-demo-icon {
   font-size: 1.5rem;
@@ -612,6 +837,11 @@ const positions = [
   background: rgba(255, 255, 255, 0.4);
   padding: 15px;
   border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+html.dark .pg-feature-item {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 .pg-feature-emoji {
   font-size: 1.2rem;
