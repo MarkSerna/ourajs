@@ -1,914 +1,969 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Oura.js | Interactive Playground</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background:
-                radial-gradient(circle at 10% 20%, #eff6ff, transparent 40%),
-                radial-gradient(circle at 90% 80%, #f5f3ff, transparent 40%),
-                radial-gradient(circle at 40% 60%, #e0f2fe, transparent 50%),
-                radial-gradient(circle at 80% 20%, #fce7f3, transparent 40%),
-                #f8fafc;
-            min-height: 100vh;
-            color: #1e293b;
-            transition: background 0.5s ease, color 0.5s ease;
-        }
+      body {
+        font-family:
+          'Inter',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background:
+          radial-gradient(circle at 10% 20%, #eff6ff, transparent 40%),
+          radial-gradient(circle at 90% 80%, #f5f3ff, transparent 40%),
+          radial-gradient(circle at 40% 60%, #e0f2fe, transparent 50%),
+          radial-gradient(circle at 80% 20%, #fce7f3, transparent 40%), #f8fafc;
+        min-height: 100vh;
+        color: #1e293b;
+        transition:
+          background 0.5s ease,
+          color 0.5s ease;
+      }
 
-        html.oura-dark-glass body {
-            background:
-                radial-gradient(circle at 10% 20%, #1e1b4b, transparent 40%),
-                radial-gradient(circle at 90% 80%, #0f172a, transparent 40%),
-                #0f172a;
-            color: #e2e8f0;
-        }
+      html.oura-dark-glass body {
+        background:
+          radial-gradient(circle at 10% 20%, #1e1b4b, transparent 40%),
+          radial-gradient(circle at 90% 80%, #0f172a, transparent 40%), #0f172a;
+        color: #e2e8f0;
+      }
 
-        /* ───── TOP BAR ───── */
-        .top-bar {
-            position: fixed;
-            top: 20px;
-            right: 24px;
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+      /* ───── TOP BAR ───── */
+      .top-bar {
+        position: fixed;
+        top: 20px;
+        right: 24px;
+        z-index: 1000;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
 
-        /* ───── LANGUAGE DROPDOWN ───── */
-        .custom-select-wrapper {
-            position: relative;
-            user-select: none;
-        }
+      /* ───── LANGUAGE DROPDOWN ───── */
+      .custom-select-wrapper {
+        position: relative;
+        user-select: none;
+      }
 
-        .custom-select-trigger {
-            padding: 10px 18px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+      .custom-select-trigger {
+        padding: 10px 18px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-        .custom-select-trigger:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-        }
+      .custom-select-trigger:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateY(-2px);
+      }
 
-        .custom-options {
-            position: absolute;
-            top: 115%;
-            right: 0;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            min-width: 150px;
-        }
+      .custom-options {
+        position: absolute;
+        top: 115%;
+        right: 0;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
+        min-width: 150px;
+      }
 
-        .custom-select-wrapper.open .custom-options {
-            display: flex;
-        }
+      .custom-select-wrapper.open .custom-options {
+        display: flex;
+      }
 
-        .custom-option {
-            padding: 10px 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
+      .custom-option {
+        padding: 10px 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: background 0.2s;
+      }
 
-        .custom-option:hover {
-            background: rgba(59, 130, 246, 0.1);
-        }
+      .custom-option:hover {
+        background: rgba(59, 130, 246, 0.1);
+      }
 
-        .custom-option img {
-            width: 20px;
-            border-radius: 3px;
-        }
+      .custom-option img {
+        width: 20px;
+        border-radius: 3px;
+      }
 
-        /* ───── ICON BUTTON ───── */
-        .icon-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            color: #475569;
-        }
+      /* ───── ICON BUTTON ───── */
+      .icon-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(16px);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        color: #475569;
+      }
 
-        .icon-btn:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-        }
+      .icon-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateY(-2px);
+      }
 
-        .icon-btn svg {
-            width: 18px;
-            height: 18px;
-        }
+      .icon-btn svg {
+        width: 18px;
+        height: 18px;
+      }
 
-        /* ───── LAYOUT ───── */
-        .app-layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            min-height: 100vh;
-        }
+      /* ───── LAYOUT ───── */
+      .app-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        min-height: 100vh;
+      }
 
-        /* ───── SIDEBAR ───── */
-        .sidebar {
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-right: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 36px 28px;
-            overflow-y: auto;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-        }
+      /* ───── SIDEBAR ───── */
+      .sidebar {
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 36px 28px;
+        overflow-y: auto;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+      }
 
-        html.oura-dark-glass .sidebar {
-            background: rgba(15, 23, 42, 0.6);
-            border-right-color: rgba(255, 255, 255, 0.08);
-        }
+      html.oura-dark-glass .sidebar {
+        background: rgba(15, 23, 42, 0.6);
+        border-right-color: rgba(255, 255, 255, 0.08);
+      }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 10px;
-            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.3);
-        }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        border-radius: 10px;
+        box-shadow: 0 6px 14px rgba(59, 130, 246, 0.3);
+      }
 
-        .logo-sub {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 28px;
-            font-weight: 500;
-        }
+      .logo-sub {
+        font-size: 0.8rem;
+        color: #64748b;
+        margin-bottom: 28px;
+        font-weight: 500;
+      }
 
-        .section-title {
-            font-size: 0.68rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #94a3b8;
-            margin: 24px 0 10px;
-            font-weight: 700;
-        }
+      .section-title {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #94a3b8;
+        margin: 24px 0 10px;
+        font-weight: 700;
+      }
 
-        /* ───── BUTTONS ───── */
-        .btn {
-            background: rgba(255, 255, 255, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            padding: 11px 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #334155;
-            font-size: 0.82rem;
-            width: 100%;
-            text-align: left;
-            font-family: inherit;
-        }
+      /* ───── BUTTONS ───── */
+      .btn {
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        padding: 11px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        color: #334155;
+        font-size: 0.82rem;
+        width: 100%;
+        text-align: left;
+        font-family: inherit;
+      }
 
-        html.oura-dark-glass .btn {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.12);
-            color: #cbd5e1;
-        }
+      html.oura-dark-glass .btn {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.12);
+        color: #cbd5e1;
+      }
 
-        .btn:hover {
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.07);
-        }
+      .btn:hover {
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.07);
+      }
 
-        html.oura-dark-glass .btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
+      html.oura-dark-glass .btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
 
-        .btn svg {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-            opacity: 0.7;
-        }
+      .btn svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        opacity: 0.7;
+      }
 
-        .grid-controls {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
+      .grid-controls {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
 
-        /* ───── POSITION GRID ───── */
-        #pos-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 4px;
-        }
+      /* ───── POSITION GRID ───── */
+      #pos-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 4px;
+      }
 
-        .pos-btn {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.62rem;
-            font-weight: 700;
-            border: 2px dashed rgba(0, 0, 0, 0.12);
-            background: transparent;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.2s;
-            color: #64748b;
-            font-family: inherit;
-        }
+      .pos-btn {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.62rem;
+        font-weight: 700;
+        border: 2px dashed rgba(0, 0, 0, 0.12);
+        background: transparent;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: all 0.2s;
+        color: #64748b;
+        font-family: inherit;
+      }
 
-        .pos-btn:hover {
-            border-color: #3b82f6;
-            color: #3b82f6;
-        }
+      .pos-btn:hover {
+        border-color: #3b82f6;
+        color: #3b82f6;
+      }
 
-        .pos-btn.active {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: #3b82f6;
-            color: #3b82f6;
-            border-style: solid;
-        }
+      .pos-btn.active {
+        background: rgba(59, 130, 246, 0.1);
+        border-color: #3b82f6;
+        color: #3b82f6;
+        border-style: solid;
+      }
 
-        /* ───── THEME STRIP ───── */
-        .theme-strip {
-            display: flex;
-            gap: 8px;
-        }
+      /* ───── THEME STRIP ───── */
+      .theme-strip {
+        display: flex;
+        gap: 8px;
+      }
 
-        .theme-strip .btn {
-            flex: 1;
-            justify-content: center;
-            font-size: 0.78rem;
-        }
+      .theme-strip .btn {
+        flex: 1;
+        justify-content: center;
+        font-size: 0.78rem;
+      }
 
-        /* ───── MAIN ───── */
-        .main-content {
-            padding: 60px 56px;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
+      /* ───── MAIN ───── */
+      .main-content {
+        padding: 60px 56px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
 
-        .hero {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-        .hero h1 {
-            font-size: 2.6rem;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+      .hero h1 {
+        font-size: 2.6rem;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-        .hero p {
-            color: #64748b;
-            font-size: 1rem;
-            max-width: 560px;
-            line-height: 1.7;
-        }
+      .hero p {
+        color: #64748b;
+        font-size: 1rem;
+        max-width: 560px;
+        line-height: 1.7;
+      }
 
-        /* ───── GLASS CARD ───── */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 28px 32px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-        }
+      /* ───── GLASS CARD ───── */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+        padding: 28px 32px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      }
 
-        html.oura-dark-glass .glass-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.08);
-        }
+      html.oura-dark-glass .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
 
-        .glass-card h2 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
+      .glass-card h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
 
-        /* ───── DEMO GRID ───── */
-        .demo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
+      /* ───── DEMO GRID ───── */
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
 
-        .demo-card {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            border-radius: 16px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+      .demo-card {
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 16px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
 
-        html.oura-dark-glass .demo-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1);
-        }
+      html.oura-dark-glass .demo-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
 
-        .demo-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
-            background: white;
-        }
+      .demo-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+        background: white;
+      }
 
-        html.oura-dark-glass .demo-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
+      html.oura-dark-glass .demo-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
 
-        .demo-icon {
-            font-size: 1.6rem;
-        }
+      .demo-icon {
+        font-size: 1.6rem;
+      }
 
-        .demo-label {
-            font-weight: 700;
-            font-size: 0.88rem;
-        }
+      .demo-label {
+        font-weight: 700;
+        font-size: 0.88rem;
+      }
 
-        .demo-sub {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            line-height: 1.4;
-        }
+      .demo-sub {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        line-height: 1.4;
+      }
 
-        /* ───── CODE BLOCK ───── */
-        .mockup-code {
-            background: #1e293b;
-            border-radius: 14px;
-            padding: 22px 26px;
-            color: #94a3b8;
-            font-family: 'Fira Code', 'Courier New', monospace;
-            font-size: 0.82rem;
-            line-height: 1.8;
-            white-space: pre;
-            overflow-x: auto;
-        }
+      /* ───── CODE BLOCK ───── */
+      .mockup-code {
+        background: #1e293b;
+        border-radius: 14px;
+        padding: 22px 26px;
+        color: #94a3b8;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 0.82rem;
+        line-height: 1.8;
+        white-space: pre;
+        overflow-x: auto;
+      }
 
-        .mockup-code .kw {
-            color: #c084fc;
-        }
+      .mockup-code .kw {
+        color: #c084fc;
+      }
 
-        .mockup-code .fn {
-            color: #60a5fa;
-        }
+      .mockup-code .fn {
+        color: #60a5fa;
+      }
 
-        .mockup-code .str {
-            color: #86efac;
-        }
+      .mockup-code .str {
+        color: #86efac;
+      }
 
-        .mockup-code .num {
-            color: #fb923c;
-        }
+      .mockup-code .num {
+        color: #fb923c;
+      }
 
-        .mockup-code .cmt {
-            color: #475569;
-        }
+      .mockup-code .cmt {
+        color: #475569;
+      }
 
-        /* ───── FEATURES ───── */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
+      /* ───── FEATURES ───── */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
 
-        .feature-item {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-            padding: 18px 20px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
+      .feature-item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 18px 20px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
 
-        html.oura-dark-glass .feature-item {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.08);
-        }
+      html.oura-dark-glass .feature-item {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
 
-        .feature-emoji {
-            font-size: 1.4rem;
-            flex-shrink: 0;
-        }
+      .feature-emoji {
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
 
-        .feature-title {
-            font-weight: 700;
-            font-size: 0.88rem;
-            margin-bottom: 3px;
-        }
+      .feature-title {
+        font-weight: 700;
+        font-size: 0.88rem;
+        margin-bottom: 3px;
+      }
 
-        .feature-desc {
-            font-size: 0.78rem;
-            color: #64748b;
-            line-height: 1.5;
-        }
+      .feature-desc {
+        font-size: 0.78rem;
+        color: #64748b;
+        line-height: 1.5;
+      }
 
-        html.oura-dark-glass .feature-desc {
-            color: #94a3b8;
-        }
+      html.oura-dark-glass .feature-desc {
+        color: #94a3b8;
+      }
 
-        /* ───── TOAST CONTAINER (injected by Oura) ───── */
-        #oura-toast-container {
-            z-index: 9999 !important;
-        }
+      /* ───── TOAST CONTAINER (injected by Oura) ───── */
+      #oura-toast-container {
+        z-index: 9999 !important;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- TOP BAR -->
     <div class="top-bar">
-        <div class="custom-select-wrapper" id="lang-wrapper">
-            <div class="custom-select-trigger" id="lang-trigger">
-                <img src="https://flagcdn.com/w20/gb.png" alt="English"> English
-            </div>
-            <div class="custom-options">
-                <div class="custom-option" data-value="en"><img src="https://flagcdn.com/w20/gb.png" alt=""> English
-                </div>
-                <div class="custom-option" data-value="es"><img src="https://flagcdn.com/w20/es.png" alt=""> Español
-                </div>
-                <div class="custom-option" data-value="fr"><img src="https://flagcdn.com/w20/fr.png" alt=""> Français
-                </div>
-                <div class="custom-option" data-value="de"><img src="https://flagcdn.com/w20/de.png" alt=""> Deutsch
-                </div>
-                <div class="custom-option" data-value="ja"><img src="https://flagcdn.com/w20/jp.png" alt=""> 日本語</div>
-                <div class="custom-option" data-value="ar"><img src="https://flagcdn.com/w20/sa.png" alt=""> العربية
-                </div>
-            </div>
+      <div class="custom-select-wrapper" id="lang-wrapper">
+        <div class="custom-select-trigger" id="lang-trigger">
+          <img src="https://flagcdn.com/w20/gb.png" alt="English" /> English
         </div>
-        <button class="icon-btn" id="theme-toggle" title="Toggle theme">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-            </svg>
-        </button>
+        <div class="custom-options">
+          <div class="custom-option" data-value="en">
+            <img src="https://flagcdn.com/w20/gb.png" alt="" /> English
+          </div>
+          <div class="custom-option" data-value="es">
+            <img src="https://flagcdn.com/w20/es.png" alt="" /> Español
+          </div>
+          <div class="custom-option" data-value="fr">
+            <img src="https://flagcdn.com/w20/fr.png" alt="" /> Français
+          </div>
+          <div class="custom-option" data-value="de">
+            <img src="https://flagcdn.com/w20/de.png" alt="" /> Deutsch
+          </div>
+          <div class="custom-option" data-value="ja">
+            <img src="https://flagcdn.com/w20/jp.png" alt="" /> 日本語
+          </div>
+          <div class="custom-option" data-value="ar">
+            <img src="https://flagcdn.com/w20/sa.png" alt="" /> العربية
+          </div>
+        </div>
+      </div>
+      <button class="icon-btn" id="theme-toggle" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      </button>
     </div>
 
     <div class="app-layout">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="logo">
-                <div class="logo-icon"></div>
-                Oura.js
-            </div>
-            <p class="logo-sub" data-t="logo_sub">v1.3.0 "Glass Edition" · Glassmorphism UI Engine</p>
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo">
+          <div class="logo-icon"></div>
+          Oura.js
+        </div>
+        <p class="logo-sub" data-t="logo_sub">v1.3.0 "Glass Edition" · Glassmorphism UI Engine</p>
 
-            <div class="section-title" data-t="section_pos">Toast Position</div>
-            <div id="pos-grid">
-                <button class="pos-btn" data-pos="top-left">TL</button>
-                <button class="pos-btn" data-pos="top-center">TC</button>
-                <button class="pos-btn active" data-pos="top-right">TR</button>
-                <button class="pos-btn" data-pos="bottom-left">BL</button>
-                <button class="pos-btn" data-pos="bottom-center">BC</button>
-                <button class="pos-btn" data-pos="bottom-right">BR</button>
-            </div>
+        <div class="section-title" data-t="section_pos">Toast Position</div>
+        <div id="pos-grid">
+          <button class="pos-btn" data-pos="top-left">TL</button>
+          <button class="pos-btn" data-pos="top-center">TC</button>
+          <button class="pos-btn active" data-pos="top-right">TR</button>
+          <button class="pos-btn" data-pos="bottom-left">BL</button>
+          <button class="pos-btn" data-pos="bottom-center">BC</button>
+          <button class="pos-btn" data-pos="bottom-right">BR</button>
+        </div>
 
-            <div class="section-title" data-t="section_layouts">Layouts</div>
-            <div class="grid-controls">
-                <button class="btn" id="trigger-drawer">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                        <line x1="15" y1="3" x2="15" y2="21" />
-                    </svg>
-                    <span data-t="btn_drawer">Side Drawer</span>
-                </button>
-                <button class="btn" id="trigger-confirm">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                        <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                    <span data-t="btn_confirm">Confirm</span>
-                </button>
-                <button class="btn" id="trigger-prompt">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                    </svg>
-                    <span data-t="btn_prompt">Prompt</span>
-                </button>
-                <button class="btn" id="trigger-stack">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                    </svg>
-                    <span data-t="btn_stack">3D Stack</span>
-                </button>
-            </div>
+        <div class="section-title" data-t="section_layouts">Layouts</div>
+        <div class="grid-controls">
+          <button class="btn" id="trigger-drawer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="15" y1="3" x2="15" y2="21" />
+            </svg>
+            <span data-t="btn_drawer">Side Drawer</span>
+          </button>
+          <button class="btn" id="trigger-confirm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <span data-t="btn_confirm">Confirm</span>
+          </button>
+          <button class="btn" id="trigger-prompt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            <span data-t="btn_prompt">Prompt</span>
+          </button>
+          <button class="btn" id="trigger-stack">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span data-t="btn_stack">3D Stack</span>
+          </button>
+        </div>
 
-            <div class="section-title" data-t="section_async">Async</div>
-            <div class="grid-controls">
-                <button class="btn" id="trigger-promise">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                    </svg>
-                    <span data-t="btn_promise">Promise</span>
-                </button>
-                <button class="btn" id="trigger-async">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="12" y1="8" x2="12" y2="12" />
-                        <line x1="12" y1="16" x2="12.01" y2="16" />
-                    </svg>
-                    <span data-t="btn_async">Async SWAL</span>
-                </button>
-            </div>
+        <div class="section-title" data-t="section_async">Async</div>
+        <div class="grid-controls">
+          <button class="btn" id="trigger-promise">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+            <span data-t="btn_promise">Promise</span>
+          </button>
+          <button class="btn" id="trigger-async">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span data-t="btn_async">Async SWAL</span>
+          </button>
+        </div>
 
-            <div class="section-title" data-t="section_theme">Theme</div>
-            <div class="theme-strip">
-                <button class="btn" id="theme-light"><span data-t="btn_light">☀️ Light</span></button>
-                <button class="btn" id="theme-dark"><span data-t="btn_dark">🌙 Dark</span></button>
-                <button class="btn" id="theme-system"><span data-t="btn_system">⚡ System</span></button>
-            </div>
-        </aside>
+        <div class="section-title" data-t="section_theme">Theme</div>
+        <div class="theme-strip">
+          <button class="btn" id="theme-light"><span data-t="btn_light">☀️ Light</span></button>
+          <button class="btn" id="theme-dark"><span data-t="btn_dark">🌙 Dark</span></button>
+          <button class="btn" id="theme-system"><span data-t="btn_system">⚡ System</span></button>
+        </div>
+      </aside>
 
-        <!-- MAIN CONTENT -->
-        <main class="main-content">
-            <div class="hero">
-                <h1 data-t="hero_title">Oura.js Playground</h1>
-                <p data-t="hero_desc">An interactive playground for the glassmorphism notification engine. Click any demo to fire it live.</p>
-            </div>
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <div class="hero">
+          <h1 data-t="hero_title">Oura.js Playground</h1>
+          <p data-t="hero_desc">
+            An interactive playground for the glassmorphism notification engine. Click any demo to
+            fire it live.
+          </p>
+        </div>
 
-            <!-- LIVE CODE SNIPPET -->
-            <div class="glass-card">
-                <h2 data-t="card_code">Live Code Preview</h2>
-                <div class="mockup-code" id="code-snippet"><span class="cmt">// Current configuration</span>
-                    <span class="fn">Oura</span>.<span class="fn">configure</span>({
-                    <span class="str">position</span>: <span class="str">'top-right'</span>,
-                    <span class="str">theme</span>: <span class="str">'system'</span>
-                    });
+        <!-- LIVE CODE SNIPPET -->
+        <div class="glass-card">
+          <h2 data-t="card_code">Live Code Preview</h2>
+          <div class="mockup-code" id="code-snippet">
+            <span class="cmt">// Current configuration</span> <span class="fn">Oura</span>.<span
+              class="fn"
+              >configure</span
+            >({ <span class="str">position</span>: <span class="str">'top-right'</span>,
+            <span class="str">theme</span>: <span class="str">'system'</span>
+            });
+          </div>
+        </div>
+
+        <!-- DEMO CARDS -->
+        <div class="glass-card">
+          <h2 data-t="card_notifications">🔔 Toast Notifications</h2>
+          <div class="demo-grid">
+            <div class="demo-card" id="demo-success">
+              <div class="demo-icon">✅</div>
+              <div class="demo-label" data-t="demo_success_label">Success</div>
+              <div class="demo-sub">Oura.success()</div>
+            </div>
+            <div class="demo-card" id="demo-error">
+              <div class="demo-icon">❌</div>
+              <div class="demo-label" data-t="demo_error_label">Error</div>
+              <div class="demo-sub">Oura.error()</div>
+            </div>
+            <div class="demo-card" id="demo-warning">
+              <div class="demo-icon">⚠️</div>
+              <div class="demo-label" data-t="demo_warning_label">Warning</div>
+              <div class="demo-sub">Oura.warning()</div>
+            </div>
+            <div class="demo-card" id="demo-info">
+              <div class="demo-icon">ℹ️</div>
+              <div class="demo-label" data-t="demo_info_label">Info</div>
+              <div class="demo-sub">Oura.info()</div>
+            </div>
+            <div class="demo-card" id="demo-progress">
+              <div class="demo-icon">⏳</div>
+              <div class="demo-label" data-t="demo_progress_label">Progress</div>
+              <div class="demo-sub">type: 'progress'</div>
+            </div>
+            <div class="demo-card" id="demo-fire">
+              <div class="demo-icon">🔥</div>
+              <div class="demo-label" data-t="demo_modal_label">Custom Modal</div>
+              <div class="demo-sub">Oura.fire()</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="glass-card">
+          <h2 data-t="card_features">✨ Key Features</h2>
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-emoji">🧊</div>
+              <div>
+                <div class="feature-title" data-t="feature_glass_title">Glassmorphism</div>
+                <div class="feature-desc" data-t="feature_glass_desc">
+                  Premium translucent UI with backdrop-blur and soft shadows.
                 </div>
+              </div>
             </div>
-
-            <!-- DEMO CARDS -->
-            <div class="glass-card">
-                <h2 data-t="card_notifications">🔔 Toast Notifications</h2>
-                <div class="demo-grid">
-                    <div class="demo-card" id="demo-success">
-                        <div class="demo-icon">✅</div>
-                        <div class="demo-label" data-t="demo_success_label">Success</div>
-                        <div class="demo-sub">Oura.success()</div>
-                    </div>
-                    <div class="demo-card" id="demo-error">
-                        <div class="demo-icon">❌</div>
-                        <div class="demo-label" data-t="demo_error_label">Error</div>
-                        <div class="demo-sub">Oura.error()</div>
-                    </div>
-                    <div class="demo-card" id="demo-warning">
-                        <div class="demo-icon">⚠️</div>
-                        <div class="demo-label" data-t="demo_warning_label">Warning</div>
-                        <div class="demo-sub">Oura.warning()</div>
-                    </div>
-                    <div class="demo-card" id="demo-info">
-                        <div class="demo-icon">ℹ️</div>
-                        <div class="demo-label" data-t="demo_info_label">Info</div>
-                        <div class="demo-sub">Oura.info()</div>
-                    </div>
-                    <div class="demo-card" id="demo-progress">
-                        <div class="demo-icon">⏳</div>
-                        <div class="demo-label" data-t="demo_progress_label">Progress</div>
-                        <div class="demo-sub">type: 'progress'</div>
-                    </div>
-                    <div class="demo-card" id="demo-fire">
-                        <div class="demo-icon">🔥</div>
-                        <div class="demo-label" data-t="demo_modal_label">Custom Modal</div>
-                        <div class="demo-sub">Oura.fire()</div>
-                    </div>
+            <div class="feature-item">
+              <div class="feature-emoji">🌗</div>
+              <div>
+                <div class="feature-title" data-t="feature_theme_title">System Theme Sync</div>
+                <div class="feature-desc" data-t="feature_theme_desc">
+                  Automatically follows the OS light/dark preference.
                 </div>
+              </div>
             </div>
-
-            <!-- FEATURES -->
-            <div class="glass-card">
-                <h2 data-t="card_features">✨ Key Features</h2>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <div class="feature-emoji">🧊</div>
-                        <div>
-                            <div class="feature-title" data-t="feature_glass_title">Glassmorphism</div>
-                            <div class="feature-desc" data-t="feature_glass_desc">Premium translucent UI with backdrop-blur and soft shadows.</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-emoji">🌗</div>
-                        <div>
-                            <div class="feature-title" data-t="feature_theme_title">System Theme Sync</div>
-                            <div class="feature-desc" data-t="feature_theme_desc">Automatically follows the OS light/dark preference.</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-emoji">📐</div>
-                        <div>
-                            <div class="feature-title" data-t="feature_pos_title">6-Point Positioning</div>
-                            <div class="feature-desc" data-t="feature_pos_desc">Place toasts at any corner or center edge of the screen.</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-emoji">🌍</div>
-                        <div>
-                            <div class="feature-title" data-t="feature_i18n_title">i18n Ready</div>
-                            <div class="feature-desc" data-t="feature_i18n_desc">10 built-in locales + custom language support.</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-emoji">⚡</div>
-                        <div>
-                            <div class="feature-title" data-t="feature_deps_title">Zero Dependencies</div>
-                            <div class="feature-desc" data-t="feature_deps_desc">Pure TypeScript, ~5kB gzipped. No React, Vue, or jQuery.</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-emoji">♿</div>
-                        <div>
-                            <div class="feature-title" data-t="feature_access_title">Accessible</div>
-                            <div class="feature-desc" data-t="feature_access_desc">Full WAI-ARIA, Escape key, Focus Trapping & reduced-motion
-                                support.</div>
-                        </div>
-                    </div>
+            <div class="feature-item">
+              <div class="feature-emoji">📐</div>
+              <div>
+                <div class="feature-title" data-t="feature_pos_title">6-Point Positioning</div>
+                <div class="feature-desc" data-t="feature_pos_desc">
+                  Place toasts at any corner or center edge of the screen.
                 </div>
+              </div>
             </div>
-        </main>
+            <div class="feature-item">
+              <div class="feature-emoji">🌍</div>
+              <div>
+                <div class="feature-title" data-t="feature_i18n_title">i18n Ready</div>
+                <div class="feature-desc" data-t="feature_i18n_desc">
+                  10 built-in locales + custom language support.
+                </div>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-emoji">⚡</div>
+              <div>
+                <div class="feature-title" data-t="feature_deps_title">Zero Dependencies</div>
+                <div class="feature-desc" data-t="feature_deps_desc">
+                  Pure TypeScript, ~5kB gzipped. No React, Vue, or jQuery.
+                </div>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-emoji">♿</div>
+              <div>
+                <div class="feature-title" data-t="feature_access_title">Accessible</div>
+                <div class="feature-desc" data-t="feature_access_desc">
+                  Full WAI-ARIA, Escape key, Focus Trapping & reduced-motion support.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
 
     <script type="module">
-        import Oura from '/src/index.ts';
+      import Oura from '/src/index.ts';
 
-        // ── Translations ──
-        const translations = {
-            en: {
-                logo_sub: 'v1.3.0 "Glass Edition" · Glassmorphism UI Engine',
-                section_pos: 'Toast Position',
-                section_layouts: 'Layouts',
-                btn_drawer: 'Side Drawer',
-                btn_confirm: 'Confirm',
-                btn_prompt: 'Prompt',
-                btn_stack: '3D Stack',
-                section_async: 'Async',
-                btn_promise: 'Promise',
-                btn_async: 'Async SWAL',
-                section_theme: 'Theme',
-                btn_light: '☀️ Light',
-                btn_dark: '🌙 Dark',
-                btn_system: '⚡ System',
-                hero_title: 'Oura.js Playground',
-                hero_desc: 'An interactive playground for the glassmorphism notification engine. Click any demo to fire it live.',
-                card_code: 'Live Code Preview',
-                card_notifications: '🔔 Toast Notifications',
-                demo_success_label: 'Success',
-                demo_error_label: 'Error',
-                demo_warning_label: 'Warning',
-                demo_info_label: 'Info',
-                demo_progress_label: 'Progress',
-                demo_modal_label: 'Custom Modal',
-                card_features: '✨ Key Features',
-                feature_glass_title: 'Glassmorphism',
-                feature_glass_desc: 'Premium translucent UI with backdrop-blur and soft shadows.',
-                feature_theme_title: 'System Theme Sync',
-                feature_theme_desc: 'Automatically follows the OS light/dark preference.',
-                feature_pos_title: '6-Point Positioning',
-                feature_pos_desc: 'Place toasts at any corner or center edge of the screen.',
-                feature_i18n_title: 'i18n Ready',
-                feature_i18n_desc: '10 built-in locales + custom language support.',
-                feature_deps_title: 'Zero Dependencies',
-                feature_deps_desc: 'Pure TypeScript, ~5kB gzipped. No React, Vue, or jQuery.',
-                feature_access_title: 'Accessible',
-                feature_access_desc: 'Full WAI-ARIA, Escape key, Focus Trapping & reduced-motion support.',
-                drawer_title: 'User Preferences',
-                drawer_p: 'Manage your application settings from this side panel.',
-                drawer_notif: 'Enable Notifications',
-                drawer_beta: 'Beta Features',
-                drawer_save: 'Save Settings',
-                drawer_success: 'Settings saved!',
-                confirm_title: 'Delete Workspace?',
-                confirm_text: 'This action cannot be undone.',
-                confirm_success: 'Workspace deleted!',
-                confirm_cancel: 'Action cancelled.',
-                prompt_title: 'Enter your email',
-                prompt_text: 'We will send a reset link.',
-                prompt_success: 'Link sent!',
-                prompt_dispatched: 'Dispatched to',
-                promise_loading: 'Fetching data...',
-                promise_received: 'Received:',
-                promise_failed: 'Failed:',
-                auth_title: 'Authentication Required',
-                auth_text: 'Type "unlock" to proceed.',
-                auth_invalid: 'Invalid access code',
-                auth_granted: 'Access granted!',
-                toast_lang_updated: 'Language updated',
-                toast_pos_updated: 'Position updated',
-                toast_pos_text: 'Anchored to',
-                demo_success_msg: 'Profile saved successfully.',
-                demo_error_msg: 'Failed to connect to server.',
-                demo_warning_msg: 'Disk space running low.',
-                demo_info_msg: 'A new version is available.',
-                demo_progress_title: 'Uploading files...',
-                demo_fire_text: 'This fires a fully customizable glassmorphic modal.',
-                demo_fire_btn: 'Got it!'
-            },
-            es: {
-                logo_sub: 'v1.3.0 "Glass Edition" · Motor de UI Glassmorphism',
-                section_pos: 'Posición del Toast',
-                section_layouts: 'Diseños',
-                btn_drawer: 'Panel Lateral',
-                btn_confirm: 'Confirmar',
-                btn_prompt: 'Entrada',
-                btn_stack: 'Pila 3D',
-                section_async: 'Asíncrono',
-                btn_promise: 'Promesa',
-                btn_async: 'SWAL Asíncrono',
-                section_theme: 'Tema',
-                btn_light: '☀️ Claro',
-                btn_dark: '🌙 Oscuro',
-                btn_system: '⚡ Sistema',
-                hero_title: 'Oura.js Playground',
-                hero_desc: 'Un patio de juegos interactivo para el motor de notificaciones glassmorphism. Haz clic en cualquier demo para verla en vivo.',
-                card_code: 'Vista Previa del Código',
-                card_notifications: '🔔 Notificaciones Toast',
-                demo_success_label: 'Éxito',
-                demo_error_label: 'Error',
-                demo_warning_label: 'Advertencia',
-                demo_info_label: 'Información',
-                demo_progress_label: 'Progreso',
-                demo_modal_label: 'Modal Personalizado',
-                card_features: '✨ Características Clave',
-                feature_glass_title: 'Glassmorphism',
-                feature_glass_desc: 'Interfaz translúcida premium con desenfoque de fondo y sombras suaves.',
-                feature_theme_title: 'Sincronización de Tema',
-                feature_theme_desc: 'Sigue automáticamente la preferencia del sistema operativo.',
-                feature_pos_title: 'Posicionamiento de 6 Puntos',
-                feature_pos_desc: 'Coloca toasts en cualquier esquina o centro de la pantalla.',
-                feature_i18n_title: 'Listo para i18n',
-                feature_i18n_desc: '10 locales integrados + soporte para idiomas personalizados.',
-                feature_deps_title: 'Cero Dependencias',
-                feature_deps_desc: 'TypeScript puro, ~5kB comprimido. Sin React, Vue o jQuery.',
-                feature_access_title: 'Accesible',
-                feature_access_desc: 'Soporte completo para WAI-ARIA, tecla Escape, bloqueo de foco y movimiento reducido.',
-                drawer_title: 'Preferencias de Usuario',
-                drawer_p: 'Gestiona la configuración de tu aplicación desde este panel lateral.',
-                drawer_notif: 'Activar Notificaciones',
-                drawer_beta: 'Funciones Beta',
-                drawer_save: 'Guardar Cambios',
-                drawer_success: '¡Ajustes guardados!',
-                confirm_title: '¿Eliminar espacio de trabajo?',
-                confirm_text: 'Esta acción no se puede deshacer.',
-                confirm_success: '¡Espacio de trabajo eliminado!',
-                confirm_cancel: 'Acción cancelada.',
-                prompt_title: 'Introduce tu email',
-                prompt_text: 'Te enviaremos un enlace de restablecimiento.',
-                prompt_success: '¡Enlace enviado!',
-                prompt_dispatched: 'Enviado a',
-                promise_loading: 'Cargando datos...',
-                promise_received: 'Recibido:',
-                promise_failed: 'Falló:',
-                auth_title: 'Autenticación Requerida',
-                auth_text: 'Escribe "unlock" para proceder.',
-                auth_invalid: 'Código de acceso no válido',
-                auth_granted: '¡Acceso concedido!',
-                toast_lang_updated: 'Idioma actualizado',
-                toast_pos_updated: 'Posición actualizada',
-                toast_pos_text: 'Anclado en',
-                demo_success_msg: 'Perfil guardado con éxito.',
-                demo_error_msg: 'Error al conectar con el servidor.',
-                demo_warning_msg: 'Espacio en disco bajo.',
-                demo_info_msg: 'Hay una nueva versión disponible.',
-                demo_progress_title: 'Subiendo archivos...',
-                demo_fire_text: 'Esto lanza un modal glassmorphic totalmente personalizable.',
-                demo_fire_btn: '¡Entendido!'
-            }
-        };
+      // ── Translations ──
+      const translations = {
+        en: {
+          logo_sub: 'v1.3.0 "Glass Edition" · Glassmorphism UI Engine',
+          section_pos: 'Toast Position',
+          section_layouts: 'Layouts',
+          btn_drawer: 'Side Drawer',
+          btn_confirm: 'Confirm',
+          btn_prompt: 'Prompt',
+          btn_stack: '3D Stack',
+          section_async: 'Async',
+          btn_promise: 'Promise',
+          btn_async: 'Async SWAL',
+          section_theme: 'Theme',
+          btn_light: '☀️ Light',
+          btn_dark: '🌙 Dark',
+          btn_system: '⚡ System',
+          hero_title: 'Oura.js Playground',
+          hero_desc:
+            'An interactive playground for the glassmorphism notification engine. Click any demo to fire it live.',
+          card_code: 'Live Code Preview',
+          card_notifications: '🔔 Toast Notifications',
+          demo_success_label: 'Success',
+          demo_error_label: 'Error',
+          demo_warning_label: 'Warning',
+          demo_info_label: 'Info',
+          demo_progress_label: 'Progress',
+          demo_modal_label: 'Custom Modal',
+          card_features: '✨ Key Features',
+          feature_glass_title: 'Glassmorphism',
+          feature_glass_desc: 'Premium translucent UI with backdrop-blur and soft shadows.',
+          feature_theme_title: 'System Theme Sync',
+          feature_theme_desc: 'Automatically follows the OS light/dark preference.',
+          feature_pos_title: '6-Point Positioning',
+          feature_pos_desc: 'Place toasts at any corner or center edge of the screen.',
+          feature_i18n_title: 'i18n Ready',
+          feature_i18n_desc: '10 built-in locales + custom language support.',
+          feature_deps_title: 'Zero Dependencies',
+          feature_deps_desc: 'Pure TypeScript, ~5kB gzipped. No React, Vue, or jQuery.',
+          feature_access_title: 'Accessible',
+          feature_access_desc:
+            'Full WAI-ARIA, Escape key, Focus Trapping & reduced-motion support.',
+          drawer_title: 'User Preferences',
+          drawer_p: 'Manage your application settings from this side panel.',
+          drawer_notif: 'Enable Notifications',
+          drawer_beta: 'Beta Features',
+          drawer_save: 'Save Settings',
+          drawer_success: 'Settings saved!',
+          confirm_title: 'Delete Workspace?',
+          confirm_text: 'This action cannot be undone.',
+          confirm_success: 'Workspace deleted!',
+          confirm_cancel: 'Action cancelled.',
+          prompt_title: 'Enter your email',
+          prompt_text: 'We will send a reset link.',
+          prompt_success: 'Link sent!',
+          prompt_dispatched: 'Dispatched to',
+          promise_loading: 'Fetching data...',
+          promise_received: 'Received:',
+          promise_failed: 'Failed:',
+          auth_title: 'Authentication Required',
+          auth_text: 'Type "unlock" to proceed.',
+          auth_invalid: 'Invalid access code',
+          auth_granted: 'Access granted!',
+          toast_lang_updated: 'Language updated',
+          toast_pos_updated: 'Position updated',
+          toast_pos_text: 'Anchored to',
+          demo_success_msg: 'Profile saved successfully.',
+          demo_error_msg: 'Failed to connect to server.',
+          demo_warning_msg: 'Disk space running low.',
+          demo_info_msg: 'A new version is available.',
+          demo_progress_title: 'Uploading files...',
+          demo_fire_text: 'This fires a fully customizable glassmorphic modal.',
+          demo_fire_btn: 'Got it!',
+        },
+        es: {
+          logo_sub: 'v1.3.0 "Glass Edition" · Motor de UI Glassmorphism',
+          section_pos: 'Posición del Toast',
+          section_layouts: 'Diseños',
+          btn_drawer: 'Panel Lateral',
+          btn_confirm: 'Confirmar',
+          btn_prompt: 'Entrada',
+          btn_stack: 'Pila 3D',
+          section_async: 'Asíncrono',
+          btn_promise: 'Promesa',
+          btn_async: 'SWAL Asíncrono',
+          section_theme: 'Tema',
+          btn_light: '☀️ Claro',
+          btn_dark: '🌙 Oscuro',
+          btn_system: '⚡ Sistema',
+          hero_title: 'Oura.js Playground',
+          hero_desc:
+            'Un patio de juegos interactivo para el motor de notificaciones glassmorphism. Haz clic en cualquier demo para verla en vivo.',
+          card_code: 'Vista Previa del Código',
+          card_notifications: '🔔 Notificaciones Toast',
+          demo_success_label: 'Éxito',
+          demo_error_label: 'Error',
+          demo_warning_label: 'Advertencia',
+          demo_info_label: 'Información',
+          demo_progress_label: 'Progreso',
+          demo_modal_label: 'Modal Personalizado',
+          card_features: '✨ Características Clave',
+          feature_glass_title: 'Glassmorphism',
+          feature_glass_desc:
+            'Interfaz translúcida premium con desenfoque de fondo y sombras suaves.',
+          feature_theme_title: 'Sincronización de Tema',
+          feature_theme_desc: 'Sigue automáticamente la preferencia del sistema operativo.',
+          feature_pos_title: 'Posicionamiento de 6 Puntos',
+          feature_pos_desc: 'Coloca toasts en cualquier esquina o centro de la pantalla.',
+          feature_i18n_title: 'Listo para i18n',
+          feature_i18n_desc: '10 locales integrados + soporte para idiomas personalizados.',
+          feature_deps_title: 'Cero Dependencias',
+          feature_deps_desc: 'TypeScript puro, ~5kB comprimido. Sin React, Vue o jQuery.',
+          feature_access_title: 'Accesible',
+          feature_access_desc:
+            'Soporte completo para WAI-ARIA, tecla Escape, bloqueo de foco y movimiento reducido.',
+          drawer_title: 'Preferencias de Usuario',
+          drawer_p: 'Gestiona la configuración de tu aplicación desde este panel lateral.',
+          drawer_notif: 'Activar Notificaciones',
+          drawer_beta: 'Funciones Beta',
+          drawer_save: 'Guardar Cambios',
+          drawer_success: '¡Ajustes guardados!',
+          confirm_title: '¿Eliminar espacio de trabajo?',
+          confirm_text: 'Esta acción no se puede deshacer.',
+          confirm_success: '¡Espacio de trabajo eliminado!',
+          confirm_cancel: 'Acción cancelada.',
+          prompt_title: 'Introduce tu email',
+          prompt_text: 'Te enviaremos un enlace de restablecimiento.',
+          prompt_success: '¡Enlace enviado!',
+          prompt_dispatched: 'Enviado a',
+          promise_loading: 'Cargando datos...',
+          promise_received: 'Recibido:',
+          promise_failed: 'Falló:',
+          auth_title: 'Autenticación Requerida',
+          auth_text: 'Escribe "unlock" para proceder.',
+          auth_invalid: 'Código de acceso no válido',
+          auth_granted: '¡Acceso concedido!',
+          toast_lang_updated: 'Idioma actualizado',
+          toast_pos_updated: 'Posición actualizada',
+          toast_pos_text: 'Anclado en',
+          demo_success_msg: 'Perfil guardado con éxito.',
+          demo_error_msg: 'Error al conectar con el servidor.',
+          demo_warning_msg: 'Espacio en disco bajo.',
+          demo_info_msg: 'Hay una nueva versión disponible.',
+          demo_progress_title: 'Subiendo archivos...',
+          demo_fire_text: 'Esto lanza un modal glassmorphic totalmente personalizable.',
+          demo_fire_btn: '¡Entendido!',
+        },
+      };
 
-        let currentLang = 'en';
-        const t = (key) => translations[currentLang][key] || key;
+      let currentLang = 'en';
+      const t = (key) => translations[currentLang][key] || key;
 
-        function updateLanguage(lang) {
-            currentLang = lang;
-            Oura.configure({ locale: lang });
-            document.querySelectorAll('[data-t]').forEach(el => {
-                const key = el.getAttribute('data-t');
-                el.innerHTML = t(key);
-            });
-        }
+      function updateLanguage(lang) {
+        currentLang = lang;
+        Oura.configure({ locale: lang });
+        document.querySelectorAll('[data-t]').forEach((el) => {
+          const key = el.getAttribute('data-t');
+          el.innerHTML = t(key);
+        });
+      }
 
-        // ── Theme toggle (App/System-wide) ──
-        const html = document.documentElement;
-        const setAppTheme = (theme) => {
-            if (theme === 'dark-glass') html.classList.add('oura-dark-glass');
-            else html.classList.remove('oura-dark-glass');
-        };
+      // ── Theme toggle (App/System-wide) ──
+      const html = document.documentElement;
+      const setAppTheme = (theme) => {
+        if (theme === 'dark-glass') html.classList.add('oura-dark-glass');
+        else html.classList.remove('oura-dark-glass');
+      };
 
-        let appTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-glass' : 'light-glass';
+      let appTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark-glass'
+        : 'light-glass';
+      setAppTheme(appTheme);
+
+      document.getElementById('theme-toggle').onclick = () => {
+        appTheme = appTheme === 'light-glass' ? 'dark-glass' : 'light-glass';
         setAppTheme(appTheme);
+      };
 
-        document.getElementById('theme-toggle').onclick = () => {
-            appTheme = appTheme === 'light-glass' ? 'dark-glass' : 'light-glass';
-            setAppTheme(appTheme);
+      // ── Oura Theme (Notification level only) ──
+      document.getElementById('theme-light').onclick = () =>
+        Oura.configure({ theme: 'light-glass' });
+      document.getElementById('theme-dark').onclick = () => Oura.configure({ theme: 'dark-glass' });
+      document.getElementById('theme-system').onclick = () => Oura.configure({ theme: 'system' });
+
+      // ── Position grid ──
+      const posButtons = document.querySelectorAll('.pos-btn');
+      posButtons.forEach((btn) => {
+        btn.onclick = () => {
+          posButtons.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          const pos = btn.dataset.pos;
+          Oura.configure({ position: pos });
+          Oura.toast({
+            title: t('toast_pos_updated'),
+            text: `${t('toast_pos_text')} ${pos}`,
+            icon: 'success',
+          });
+          document.getElementById('code-snippet').innerHTML =
+            `<span class="cmt">// Updated configuration</span>\n<span class="fn">Oura</span>.<span class="fn">configure</span>({\n  <span class="str">position</span>: <span class="str">'${pos}'</span>,\n  <span class="str">theme</span>: <span class="str">'system'</span>\n});`;
         };
+      });
 
-        // ── Oura Theme (Notification level only) ──
-        document.getElementById('theme-light').onclick = () => Oura.configure({ theme: 'light-glass' });
-        document.getElementById('theme-dark').onclick = () => Oura.configure({ theme: 'dark-glass' });
-        document.getElementById('theme-system').onclick = () => Oura.configure({ theme: 'system' });
-
-        // ── Position grid ──
-        const posButtons = document.querySelectorAll('.pos-btn');
-        posButtons.forEach(btn => {
-            btn.onclick = () => {
-                posButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const pos = btn.dataset.pos;
-                Oura.configure({ position: pos });
-                Oura.toast({ title: t('toast_pos_updated'), text: `${t('toast_pos_text')} ${pos}`, icon: 'success' });
-                document.getElementById('code-snippet').innerHTML =
-                    `<span class="cmt">// Updated configuration</span>\n<span class="fn">Oura</span>.<span class="fn">configure</span>({\n  <span class="str">position</span>: <span class="str">'${pos}'</span>,\n  <span class="str">theme</span>: <span class="str">'system'</span>\n});`;
-            };
+      // ── Toast demos ──
+      document.getElementById('demo-success').onclick = () =>
+        Oura.success(t('demo_success_label') + '!', t('demo_success_msg'));
+      document.getElementById('demo-error').onclick = () =>
+        Oura.error(t('demo_error_label') + '!', t('demo_error_msg'));
+      document.getElementById('demo-warning').onclick = () =>
+        Oura.warning(t('demo_warning_label'), t('demo_warning_msg'));
+      document.getElementById('demo-info').onclick = () =>
+        Oura.info(t('demo_info_label'), t('demo_info_msg'));
+      document.getElementById('demo-progress').onclick = () =>
+        Oura.toast({
+          title: t('demo_progress_title'),
+          type: 'progress',
+          timer: 4000,
+          icon: 'progress',
+        });
+      document.getElementById('demo-fire').onclick = () =>
+        Oura.fire({
+          title: t('demo_modal_label'),
+          text: t('demo_fire_text'),
+          icon: 'info',
+          confirmButtonText: t('demo_fire_btn'),
         });
 
-        // ── Toast demos ──
-        document.getElementById('demo-success').onclick = () => Oura.success(t('demo_success_label') + '!', t('demo_success_msg'));
-        document.getElementById('demo-error').onclick = () => Oura.error(t('demo_error_label') + '!', t('demo_error_msg'));
-        document.getElementById('demo-warning').onclick = () => Oura.warning(t('demo_warning_label'), t('demo_warning_msg'));
-        document.getElementById('demo-info').onclick = () => Oura.info(t('demo_info_label'), t('demo_info_msg'));
-        document.getElementById('demo-progress').onclick = () => Oura.toast({ title: t('demo_progress_title'), type: 'progress', timer: 4000, icon: 'progress' });
-        document.getElementById('demo-fire').onclick = () => Oura.fire({ title: t('demo_modal_label'), text: t('demo_fire_text'), icon: 'info', confirmButtonText: t('demo_fire_btn') });
-
-        // ── Layout triggers ──
-        document.getElementById('trigger-drawer').onclick = () => {
-            Oura.drawer({
-                title: t('drawer_title'),
-                side: 'right',
-                width: '440px',
-                html: `<div style="display:flex;flex-direction:column;gap:20px;">
+      // ── Layout triggers ──
+      document.getElementById('trigger-drawer').onclick = () => {
+        Oura.drawer({
+          title: t('drawer_title'),
+          side: 'right',
+          width: '440px',
+          html: `<div style="display:flex;flex-direction:column;gap:20px;">
                     <p style="color:#64748b">${t('drawer_p')}</p>
                     <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
                         <input type="checkbox" checked> ${t('drawer_notif')}
@@ -917,73 +972,92 @@
                         <input type="checkbox"> ${t('drawer_beta')}
                     </label>
                 </div>`,
-                confirmButtonText: t('drawer_save')
-            }).then(r => { if (r.isConfirmed) Oura.success(t('drawer_success')); });
-        };
-
-        document.getElementById('trigger-confirm').onclick = async () => {
-            const r = await Oura.confirm(t('confirm_title'), t('confirm_text'));
-            if (r.isConfirmed) Oura.success(t('confirm_success'));
-            else Oura.info(t('confirm_cancel'));
-        };
-
-        document.getElementById('trigger-prompt').onclick = async () => {
-            const r = await Oura.prompt(t('prompt_title'), t('prompt_text'), 'email');
-            if (r.isConfirmed && r.value) Oura.success(t('prompt_success'), `${t('prompt_dispatched')} ${r.value}`);
-        };
-
-        document.getElementById('trigger-stack').onclick = () => {
-            const msgs = ['System initialized', 'Checking records', 'Compiling assets', 'Deploying grid', 'Done!'];
-            msgs.forEach((m, i) => setTimeout(() => Oura.toast({ title: m, icon: i === 4 ? 'success' : 'info' }), i * 160));
-        };
-
-        // ── Async ──
-        document.getElementById('trigger-promise').onclick = () => {
-            const p = new Promise((res, rej) => setTimeout(() => Math.random() > 0.3 ? res('v1.3.0 payload') : rej('Timeout 404'), 2000));
-            Oura.promise(p, { loading: t('promise_loading'), success: d => `${t('promise_received')} ${d}`, error: e => `${t('promise_failed')} ${e}` });
-        };
-
-        document.getElementById('trigger-async').onclick = async () => {
-            const res = await Oura.prompt({
-                title: t('auth_title'),
-                text: t('auth_text'),
-                preConfirm: async (val) => {
-                    await new Promise(r => setTimeout(r, 1000));
-                    if (val !== 'unlock') throw new Error(t('auth_invalid'));
-                }
-            });
-            if (res.isConfirmed) Oura.success(t('auth_granted'));
-        };
-
-        // ── Language selector ──
-        const langTrigger = document.getElementById('lang-trigger');
-        const langWrapper = document.getElementById('lang-wrapper');
-
-        langTrigger.onclick = e => { e.stopPropagation(); langWrapper.classList.toggle('open'); };
-        document.onclick = () => langWrapper.classList.remove('open');
-
-        document.querySelectorAll('.custom-option').forEach(opt => {
-            opt.onclick = () => {
-                const lang = opt.dataset.value;
-                updateLanguage(lang);
-                langTrigger.innerHTML = opt.innerHTML;
-                langWrapper.classList.remove('open');
-                Oura.toast({ title: t('toast_lang_updated'), icon: 'success' });
-            };
+          confirmButtonText: t('drawer_save'),
+        }).then((r) => {
+          if (r.isConfirmed) Oura.success(t('drawer_success'));
         });
+      };
 
-        // Set initial language from browser or default to English
-        const browserLang = navigator.language.split('-')[0];
-        if (translations[browserLang]) {
-            updateLanguage(browserLang);
-            const initialOpt = document.querySelector(`.custom-option[data-value="${browserLang}"]`);
-            if (initialOpt) langTrigger.innerHTML = initialOpt.innerHTML;
-        } else {
-            updateLanguage('en'); // Default to English if browser language not supported
-            const initialOpt = document.querySelector(`.custom-option[data-value="en"]`);
-            if (initialOpt) langTrigger.innerHTML = initialOpt.innerHTML;
-        }
+      document.getElementById('trigger-confirm').onclick = async () => {
+        const r = await Oura.confirm(t('confirm_title'), t('confirm_text'));
+        if (r.isConfirmed) Oura.success(t('confirm_success'));
+        else Oura.info(t('confirm_cancel'));
+      };
+
+      document.getElementById('trigger-prompt').onclick = async () => {
+        const r = await Oura.prompt(t('prompt_title'), t('prompt_text'), 'email');
+        if (r.isConfirmed && r.value)
+          Oura.success(t('prompt_success'), `${t('prompt_dispatched')} ${r.value}`);
+      };
+
+      document.getElementById('trigger-stack').onclick = () => {
+        const msgs = [
+          'System initialized',
+          'Checking records',
+          'Compiling assets',
+          'Deploying grid',
+          'Done!',
+        ];
+        msgs.forEach((m, i) =>
+          setTimeout(() => Oura.toast({ title: m, icon: i === 4 ? 'success' : 'info' }), i * 160)
+        );
+      };
+
+      // ── Async ──
+      document.getElementById('trigger-promise').onclick = () => {
+        const p = new Promise((res, rej) =>
+          setTimeout(() => (Math.random() > 0.3 ? res('v1.3.0 payload') : rej('Timeout 404')), 2000)
+        );
+        Oura.promise(p, {
+          loading: t('promise_loading'),
+          success: (d) => `${t('promise_received')} ${d}`,
+          error: (e) => `${t('promise_failed')} ${e}`,
+        });
+      };
+
+      document.getElementById('trigger-async').onclick = async () => {
+        const res = await Oura.prompt({
+          title: t('auth_title'),
+          text: t('auth_text'),
+          preConfirm: async (val) => {
+            await new Promise((r) => setTimeout(r, 1000));
+            if (val !== 'unlock') throw new Error(t('auth_invalid'));
+          },
+        });
+        if (res.isConfirmed) Oura.success(t('auth_granted'));
+      };
+
+      // ── Language selector ──
+      const langTrigger = document.getElementById('lang-trigger');
+      const langWrapper = document.getElementById('lang-wrapper');
+
+      langTrigger.onclick = (e) => {
+        e.stopPropagation();
+        langWrapper.classList.toggle('open');
+      };
+      document.onclick = () => langWrapper.classList.remove('open');
+
+      document.querySelectorAll('.custom-option').forEach((opt) => {
+        opt.onclick = () => {
+          const lang = opt.dataset.value;
+          updateLanguage(lang);
+          langTrigger.innerHTML = opt.innerHTML;
+          langWrapper.classList.remove('open');
+          Oura.toast({ title: t('toast_lang_updated'), icon: 'success' });
+        };
+      });
+
+      // Set initial language from browser or default to English
+      const browserLang = navigator.language.split('-')[0];
+      if (translations[browserLang]) {
+        updateLanguage(browserLang);
+        const initialOpt = document.querySelector(`.custom-option[data-value="${browserLang}"]`);
+        if (initialOpt) langTrigger.innerHTML = initialOpt.innerHTML;
+      } else {
+        updateLanguage('en'); // Default to English if browser language not supported
+        const initialOpt = document.querySelector(`.custom-option[data-value="en"]`);
+        if (initialOpt) langTrigger.innerHTML = initialOpt.innerHTML;
+      }
     </script>
-</body>
-
+  </body>
 </html>

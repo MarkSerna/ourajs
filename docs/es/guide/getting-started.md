@@ -14,7 +14,7 @@ O vía CDN:
 
 ```html
 <script src="https://unpkg.com/oura-js/dist/oura.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/oura-js/dist/style.css">
+<link rel="stylesheet" href="https://unpkg.com/oura-js/dist/style.css" />
 ```
 
 ## Uso Básico
@@ -31,7 +31,7 @@ Oura.success('¡Instalación completada!');
 Oura.fire({
   title: '¡Bienvenido!',
   text: 'Gracias por elegir Oura.js',
-  icon: 'success'
+  icon: 'success',
 });
 ```
 

@@ -10,7 +10,7 @@ const cleanup = Oura.contextMenu('#my-area', [
   { label: 'Copy', shortcut: '⌘C', onClick: () => {} },
   { label: 'Paste', shortcut: '⌘V', onClick: () => {} },
   { separator: true },
-  { label: 'Delete', danger: true, onClick: () => {} }
+  { label: 'Delete', danger: true, onClick: () => {} },
 ]);
 ```
 
@@ -33,7 +33,7 @@ Oura.contextMenu('#file-list', [
   { label: 'Rename', icon: '✏️', onClick: () => {} },
   { label: 'Share', icon: '🔗', onClick: () => {} },
   { separator: true },
-  { label: 'Move to Trash', icon: '🗑️', danger: true, onClick: () => {} }
+  { label: 'Move to Trash', icon: '🗑️', danger: true, onClick: () => {} },
 ]);
 ```
 

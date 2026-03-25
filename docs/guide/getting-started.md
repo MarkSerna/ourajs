@@ -5,15 +5,17 @@ Oura.js is a modern, beautifully designed alternative to traditional notificatio
 ## Installation
 
 Using NPM or Yarn:
+
 ```sh
 npm install oura-js
 ```
 
 Or inject it directly in your HTML (CDN):
+
 ```html
 <script type="module">
   import Oura from 'https://unpkg.com/oura-js/dist/oura.js';
-  
+
   Oura.success('Library loaded successfully!');
 </script>
 ```
@@ -26,13 +28,13 @@ You can customize the base behavior at the start of your app:
 import Oura from 'oura-js';
 
 Oura.configure({
-    theme: 'dark-glass', // or 'light-glass'
-    accent: '#8b5cf6', // The main color ring and buttons
-    locale: 'ja', // 10 built-in languages supported (en, es, fr, de, it, pt, zh, ja, ru, ar)
-    customI18n: {
-        // You can even invent your own languages!
-        'alien': { confirm: 'Zorg', cancel: 'Norg', submit: 'Bloop', continue: 'Glorp' }
-    }
+  theme: 'dark-glass', // or 'light-glass'
+  accent: '#8b5cf6', // The main color ring and buttons
+  locale: 'ja', // 10 built-in languages supported (en, es, fr, de, it, pt, zh, ja, ru, ar)
+  customI18n: {
+    // You can even invent your own languages!
+    alien: { confirm: 'Zorg', cancel: 'Norg', submit: 'Bloop', continue: 'Glorp' },
+  },
 });
 ```
 

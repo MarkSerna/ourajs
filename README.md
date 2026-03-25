@@ -13,18 +13,18 @@
 
 ## ✨ Features
 
-| Component | Description |
-|---|---|
-| **Modals** | Glassmorphic dialog boxes with confirm/cancel/deny |
-| **Toasts** | Stackable notifications with 3D depth effect |
-| **Drawers** | Side panels (Sheet) from any edge |
-| **Tooltips** | Contextual hints on hover/focus |
-| **Popovers** | Floating panels anchored to elements |
-| **Dropdowns** | Menus with icons, shortcuts & keyboard nav |
-| **Context Menus** | Custom right-click menus |
-| **Inline Alerts** | Static banners (success/warning/error/info) |
-| **Skeletons** | Animated loading placeholders |
-| **Hover Cards** | Preview cards on hover |
+| Component         | Description                                        |
+| ----------------- | -------------------------------------------------- |
+| **Modals**        | Glassmorphic dialog boxes with confirm/cancel/deny |
+| **Toasts**        | Stackable notifications with 3D depth effect       |
+| **Drawers**       | Side panels (Sheet) from any edge                  |
+| **Tooltips**      | Contextual hints on hover/focus                    |
+| **Popovers**      | Floating panels anchored to elements               |
+| **Dropdowns**     | Menus with icons, shortcuts & keyboard nav         |
+| **Context Menus** | Custom right-click menus                           |
+| **Inline Alerts** | Static banners (success/warning/error/info)        |
+| **Skeletons**     | Animated loading placeholders                      |
+| **Hover Cards**   | Preview cards on hover                             |
 
 **Plus:** Toast actions, custom SVG icons, exit animations, 6-way positioning, system theme sync, and i18n (10 languages).
 
@@ -51,9 +51,9 @@ import Oura from 'oura-js';
 
 // Configure
 Oura.configure({
-  theme: 'system',      // light-glass | dark-glass | system
+  theme: 'system', // light-glass | dark-glass | system
   position: 'top-right', // 6 positions
-  locale: 'en'
+  locale: 'en',
 });
 
 // Toast
@@ -63,26 +63,26 @@ Oura.success('Saved!', 'Your changes are live.');
 Oura.toast({
   title: 'File deleted',
   icon: 'warning',
-  actions: [
-    { label: 'Undo', onClick: () => console.log('Undo!') }
-  ]
+  actions: [{ label: 'Undo', onClick: () => console.log('Undo!') }],
 });
 
 // Confirm dialog
 const result = await Oura.confirm('Delete?', 'This is permanent.');
-if (result.isConfirmed) { /* ... */ }
+if (result.isConfirmed) {
+  /* ... */
+}
 
 // Drawer
 Oura.drawer({
   title: 'Settings',
   side: 'right',
-  html: '<p>Your content here</p>'
+  html: '<p>Your content here</p>',
 });
 
 // Tooltip
 Oura.tooltip('#my-btn', {
   content: 'Save your work',
-  placement: 'top'
+  placement: 'top',
 });
 
 // Dropdown Menu
@@ -90,15 +90,15 @@ Oura.dropdown('#menu-btn', {
   items: [
     { label: 'Edit', icon: '✏️', shortcut: '⌘E', onClick: () => {} },
     { separator: true },
-    { label: 'Delete', danger: true, onClick: () => {} }
-  ]
+    { label: 'Delete', danger: true, onClick: () => {} },
+  ],
 });
 
 // Inline Alert
 Oura.alert({
   title: 'Heads up',
   description: 'New version available.',
-  variant: 'info'
+  variant: 'info',
 });
 ```
 
@@ -120,14 +120,14 @@ Oura.configure({ accent: '#8b5cf6' });
 
 ### CSS Custom Properties
 
-| Variable | Default | Description |
-|---|---|---|
-| `--oura-bg` | `rgba(255,255,255,0.45)` | Background |
-| `--oura-text` | `#1a1a1a` | Text color |
-| `--oura-border` | `rgba(255,255,255,0.6)` | Border |
-| `--oura-accent` | `#007bff` | Accent color |
-| `--oura-radius` | `16px` | Border radius |
-| `--oura-font` | `system-ui` | Font family |
+| Variable        | Default                  | Description   |
+| --------------- | ------------------------ | ------------- |
+| `--oura-bg`     | `rgba(255,255,255,0.45)` | Background    |
+| `--oura-text`   | `#1a1a1a`                | Text color    |
+| `--oura-border` | `rgba(255,255,255,0.6)`  | Border        |
+| `--oura-accent` | `#007bff`                | Accent color  |
+| `--oura-radius` | `16px`                   | Border radius |
+| `--oura-font`   | `system-ui`              | Font family   |
 
 ---
 
@@ -159,12 +159,13 @@ import type { OuraOptions, OuraConfig, OuraResult, OuraPromiseMessages } from 'o
 
 ```bash
 npm run lint              # ESLint (TypeScript)
+npm run format:check      # Prettier (CI también lo exige)
 npm test                  # Vitest
 npm run test:coverage     # Vitest + V8 coverage (same as CI)
 npm run build
 ```
 
-Guidance on HTML, XSS, and SSR: see **Security & HTML** in the documentation site.
+Guidance on HTML, XSS, and SSR: see **Security & HTML** in the documentation site. For contributing, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -172,35 +173,35 @@ Guidance on HTML, XSS, and SSR: see **Security & HTML** in the documentation sit
 
 ### Notifications
 
-| Method | Description |
-|---|---|
-| `Oura.toast(options)` | Toast notification |
-| `Oura.success(title, text?)` | Success toast shorthand |
-| `Oura.error(title, text?)` | Error toast shorthand |
-| `Oura.warning(title, text?)` | Warning toast shorthand |
-| `Oura.info(title, text?)` | Info toast shorthand |
-| `Oura.promise(promise, msgs)` | Promise-tracking toast |
+| Method                        | Description             |
+| ----------------------------- | ----------------------- |
+| `Oura.toast(options)`         | Toast notification      |
+| `Oura.success(title, text?)`  | Success toast shorthand |
+| `Oura.error(title, text?)`    | Error toast shorthand   |
+| `Oura.warning(title, text?)`  | Warning toast shorthand |
+| `Oura.info(title, text?)`     | Info toast shorthand    |
+| `Oura.promise(promise, msgs)` | Promise-tracking toast  |
 
 ### Dialogs
 
-| Method | Description |
-|---|---|
-| `Oura.fire(options)` | Modal dialog |
+| Method                       | Description    |
+| ---------------------------- | -------------- |
+| `Oura.fire(options)`         | Modal dialog   |
 | `Oura.confirm(title, text?)` | Confirm dialog |
-| `Oura.prompt(options)` | Input prompt |
-| `Oura.drawer(options)` | Side panel |
+| `Oura.prompt(options)`       | Input prompt   |
+| `Oura.drawer(options)`       | Side panel     |
 
 ### Components
 
-| Method | Returns | Description |
-|---|---|---|
-| `Oura.tooltip(target, opts)` | `cleanup()` | Tooltip |
-| `Oura.popover(target, opts)` | `cleanup()` | Popover |
-| `Oura.dropdown(target, opts)` | `cleanup()` | Dropdown menu |
-| `Oura.contextMenu(target, items)` | `cleanup()` | Right-click menu |
-| `Oura.hoverCard(target, opts)` | `cleanup()` | Hover preview card |
-| `Oura.alert(opts)` | `HTMLElement` | Inline banner |
-| `Oura.skeleton(opts)` | `HTMLElement` | Loading placeholder |
+| Method                            | Returns       | Description         |
+| --------------------------------- | ------------- | ------------------- |
+| `Oura.tooltip(target, opts)`      | `cleanup()`   | Tooltip             |
+| `Oura.popover(target, opts)`      | `cleanup()`   | Popover             |
+| `Oura.dropdown(target, opts)`     | `cleanup()`   | Dropdown menu       |
+| `Oura.contextMenu(target, items)` | `cleanup()`   | Right-click menu    |
+| `Oura.hoverCard(target, opts)`    | `cleanup()`   | Hover preview card  |
+| `Oura.alert(opts)`                | `HTMLElement` | Inline banner       |
+| `Oura.skeleton(opts)`             | `HTMLElement` | Loading placeholder |
 
 ---
 

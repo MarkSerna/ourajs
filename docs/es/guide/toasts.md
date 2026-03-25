@@ -5,6 +5,7 @@ Los Toasts son notificaciones no intrusivas y transitorias que se apilan elegant
 ## Uso Básico
 
 Invocación estándar:
+
 ```javascript
 import Oura from 'oura-js';
 
@@ -27,7 +28,7 @@ Oura.toast({
   title: 'Subiendo 3 archivos...',
   type: 'progress',
   timer: 4500,
-  icon: 'progress'
+  icon: 'progress',
 });
 ```
 
@@ -45,9 +46,7 @@ Añade botones interactivos directamente en tus toasts.
 ```javascript
 Oura.toast({
   title: 'Mensaje eliminado',
-  actions: [
-    { label: 'Deshacer', onClick: () => Oura.success('¡Restaurado!') }
-  ]
+  actions: [{ label: 'Deshacer', onClick: () => Oura.success('¡Restaurado!') }],
 });
 ```
 

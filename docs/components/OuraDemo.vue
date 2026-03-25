@@ -1,34 +1,37 @@
 <script setup>
-import { onMounted, shallowRef } from 'vue'
+import { onMounted, shallowRef } from 'vue';
 
 const props = defineProps({
   label: { type: String, default: 'Try it' },
   variant: { type: String, default: 'primary' }, // primary | outline
-  fn: { type: Function, required: true }
-})
+  fn: { type: Function, required: true },
+});
 
-const Oura = shallowRef(null)
+const Oura = shallowRef(null);
 
 onMounted(async () => {
-    // In VitePress, we import from the source to ensure latest features
-    const module = await import('../../src/index.ts')
-    Oura.value = module.default
-})
+  // In VitePress, we import from the source to ensure latest features
+  const module = await import('../../src/index.ts');
+  Oura.value = module.default;
+});
 
 const handleClick = (e) => {
   if (Oura.value) {
-    props.fn(Oura.value, e.currentTarget)
+    props.fn(Oura.value, e.currentTarget);
   }
-}
+};
 </script>
 
 <template>
-  <button 
-    class="oura-demo-btn" 
-    :class="variant"
-    @click="handleClick"
-  >
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+  <button class="oura-demo-btn" :class="variant" @click="handleClick">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      width="16"
+      height="16"
+    >
       <polygon points="5 3 19 12 5 21 5 3"></polygon>
     </svg>
     <span>{{ label }}</span>

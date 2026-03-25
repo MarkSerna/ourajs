@@ -13,7 +13,7 @@ Oura.fire({
   title: 'Error de Red',
   text: 'No se puede sincronizar con la base de datos central.',
   icon: 'error',
-  confirmButtonText: 'Reintentar Conexión'
+  confirmButtonText: 'Reintentar Conexión',
 });
 ```
 
@@ -43,7 +43,11 @@ if (result.isConfirmed) {
 ¡Captura la entrada del usuario de forma elegante sin necesidad de estructuras de formulario!
 
 ```javascript
-const result = await Oura.prompt('Introduce tu email', 'Te enviaremos un enlace de restablecimiento', 'email');
+const result = await Oura.prompt(
+  'Introduce tu email',
+  'Te enviaremos un enlace de restablecimiento',
+  'email'
+);
 
 if (result.isConfirmed && result.value) {
   Oura.toast(`Enlace enviado a ${result.value}`);

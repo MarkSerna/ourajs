@@ -7,7 +7,7 @@ Glassmorphic tooltips that appear on hover or focus. Supports 4 placements with 
 ```js
 const cleanup = Oura.tooltip('#my-button', {
   content: 'Save your work',
-  placement: 'top'
+  placement: 'top',
 });
 ```
 
@@ -15,11 +15,11 @@ const cleanup = Oura.tooltip('#my-button', {
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `content` | `string` | — | Text content of the tooltip |
+| Option      | Type                                     | Default | Description                 |
+| ----------- | ---------------------------------------- | ------- | --------------------------- |
+| `content`   | `string`                                 | —       | Text content of the tooltip |
 | `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Position relative to target |
-| `delay` | `number` | `200` | Delay in ms before showing |
+| `delay`     | `number`                                 | `200`   | Delay in ms before showing  |
 
 ## Placements
 
@@ -43,5 +43,5 @@ destroy();
 
 ## Accessibility
 
-- Tooltips are triggered on `mouseenter`/`mouseleave` *and* `focus`/`blur`
+- Tooltips are triggered on `mouseenter`/`mouseleave` _and_ `focus`/`blur`
 - Follows WAI-ARIA tooltip patterns

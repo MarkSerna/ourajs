@@ -10,7 +10,7 @@ const cleanup = Oura.hoverCard('#user-link', {
     <strong>Jane Smith</strong>
     <p style="margin:4px 0 0;color:#64748b;font-size:0.85rem">Full-stack engineer · @janesmith</p>
   `,
-  placement: 'bottom'
+  placement: 'bottom',
 });
 ```
 
@@ -21,12 +21,12 @@ const cleanup = Oura.hoverCard('#user-link', {
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `html` | `string` | — | HTML content |
-| `placement` | `'top' \| 'bottom'` | `'bottom'` | Position relative to target |
-| `openDelay` | `number` | `300` | Delay before showing (ms) |
-| `closeDelay` | `number` | `200` | Delay before hiding (ms) |
+| Option       | Type                | Default    | Description                 |
+| ------------ | ------------------- | ---------- | --------------------------- |
+| `html`       | `string`            | —          | HTML content                |
+| `placement`  | `'top' \| 'bottom'` | `'bottom'` | Position relative to target |
+| `openDelay`  | `number`            | `300`      | Delay before showing (ms)   |
+| `closeDelay` | `number`            | `200`      | Delay before hiding (ms)    |
 
 ## Link Preview
 
@@ -41,7 +41,7 @@ Oura.hoverCard('#docs-link', {
       </div>
     </div>
   `,
-  openDelay: 400
+  openDelay: 400,
 });
 ```
 

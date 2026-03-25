@@ -4,16 +4,16 @@ import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   plugins: [
-    dts({ 
+    dts({
       insertTypesEntry: true,
-      include: ['src/**/*.ts']
-    })
+      include: ['src/**/*.ts'],
+    }),
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'Oura',
-      fileName: 'oura'
+      fileName: 'oura',
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -22,8 +22,8 @@ export default defineConfig({
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
-        globals: {}
-      }
-    }
-  }
+        globals: {},
+      },
+    },
+  },
 });

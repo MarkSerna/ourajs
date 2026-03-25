@@ -1,10 +1,10 @@
 export const injectStyles = (): void => {
-    if (typeof document === 'undefined') return;
-    if (document.getElementById('oura-styles')) return;
+  if (typeof document === 'undefined') return;
+  if (document.getElementById('oura-styles')) return;
 
-    const style = document.createElement('style');
-    style.id = 'oura-styles';
-    style.innerHTML = `
+  const style = document.createElement('style');
+  style.id = 'oura-styles';
+  style.innerHTML = `
         :root {
             --oura-bg: rgba(255, 255, 255, 0.45);
             --oura-toast-bg: rgba(250, 252, 255, 0.7);
@@ -674,13 +674,13 @@ export const injectStyles = (): void => {
         }
         .oura-hover-card.oura-show { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
     `;
-    document.head.appendChild(style);
-    
-    if (!document.getElementById('oura-toast-container')) {
-        const container = document.createElement('div');
-        container.id = 'oura-toast-container';
-        container.className = 'oura-toast-container';
-        container.setAttribute('aria-live', 'polite'); // A11y
-        document.body.appendChild(container);
-    }
+  document.head.appendChild(style);
+
+  if (!document.getElementById('oura-toast-container')) {
+    const container = document.createElement('div');
+    container.id = 'oura-toast-container';
+    container.className = 'oura-toast-container oura-pos-top-right';
+    container.setAttribute('aria-live', 'polite'); // A11y
+    document.body.appendChild(container);
+  }
 };

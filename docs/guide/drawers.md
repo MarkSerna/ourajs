@@ -9,10 +9,10 @@ import Oura from 'oura-js';
 
 Oura.drawer({
   title: 'User Preferences',
-  side: 'right',       // 'left' | 'right' | 'top' | 'bottom'
+  side: 'right', // 'left' | 'right' | 'top' | 'bottom'
   html: '<p>Configure your app settings here.</p>',
-  confirmButtonText: 'Save'
-}).then(result => {
+  confirmButtonText: 'Save',
+}).then((result) => {
   if (result.isConfirmed) {
     Oura.success('Settings saved!');
   }
@@ -25,12 +25,12 @@ Oura.drawer({
 
 The `side` property accepts four values to control which edge the panel slides in from:
 
-| Value | Description |
-|---|---|
-| `right` | Slides in from the right *(default)* |
-| `left` | Slides in from the left |
-| `top` | Drops down from the top |
-| `bottom` | Rises from the bottom |
+| Value    | Description                          |
+| -------- | ------------------------------------ |
+| `right`  | Slides in from the right _(default)_ |
+| `left`   | Slides in from the left              |
+| `top`    | Drops down from the top              |
+| `bottom` | Rises from the bottom                |
 
 ## Custom Width
 
@@ -41,7 +41,7 @@ Oura.drawer({
   title: 'Wide Panel',
   side: 'right',
   width: '520px',
-  html: '<p>Extra wide content area.</p>'
+  html: '<p>Extra wide content area.</p>',
 });
 ```
 
@@ -66,7 +66,7 @@ Oura.drawer({
       </label>
     </div>
   `,
-  confirmButtonText: 'Save Settings'
+  confirmButtonText: 'Save Settings',
 });
 ```
 

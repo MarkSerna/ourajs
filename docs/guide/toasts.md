@@ -5,6 +5,7 @@ Toasts are non-blocking, transient notifications that elegantly stack in the cor
 ## Simple Toast
 
 Standard toast invocation:
+
 ```javascript
 import Oura from 'oura-js';
 
@@ -27,7 +28,7 @@ Oura.toast({
   title: 'Uploading 3 files...',
   type: 'progress',
   timer: 4500,
-  icon: 'progress'
+  icon: 'progress',
 });
 ```
 
@@ -45,9 +46,7 @@ Add interactive buttons directly to your toasts.
 ```javascript
 Oura.toast({
   title: 'Message deleted',
-  actions: [
-    { label: 'Undo', onClick: () => Oura.success('Restored!') }
-  ]
+  actions: [{ label: 'Undo', onClick: () => Oura.success('Restored!') }],
 });
 ```
 

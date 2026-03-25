@@ -7,12 +7,12 @@ Oura has first-class support for async operations. Use `Oura.promise()` to autom
 ```javascript
 import Oura from 'oura-js';
 
-const fetchData = fetch('/api/data').then(r => r.json());
+const fetchData = fetch('/api/data').then((r) => r.json());
 
 Oura.promise(fetchData, {
   loading: 'Fetching data...',
   success: 'Data loaded successfully!',
-  error: 'Failed to load data.'
+  error: 'Failed to load data.',
 });
 ```
 
@@ -30,12 +30,12 @@ Oura.promise(fetchData, {
 The `success` and `error` values can be functions that receive the resolved/rejected value:
 
 ```javascript
-const p = fetch('/api/user').then(r => r.json());
+const p = fetch('/api/user').then((r) => r.json());
 
 Oura.promise(p, {
   loading: 'Loading user...',
   success: (user) => `Welcome back, ${user.name}!`,
-  error: (err) => `Error ${err.status}: ${err.message}`
+  error: (err) => `Error ${err.status}: ${err.message}`,
 });
 ```
 
@@ -49,14 +49,14 @@ const result = await Oura.prompt({
   text: 'Type "unlock" to continue.',
   preConfirm: async (value) => {
     // Simulate an API call
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 1000));
 
     if (value !== 'unlock') {
       throw new Error('Invalid code. Please try again.');
     }
 
     return value; // returned value populates result.value
-  }
+  },
 });
 
 if (result.isConfirmed) {

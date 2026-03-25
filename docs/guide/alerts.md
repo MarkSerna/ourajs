@@ -8,7 +8,7 @@ Static, inline glassmorphic alert banners. Unlike toasts, these stay in place wi
 Oura.alert({
   title: 'Heads up!',
   description: 'This action cannot be undone.',
-  variant: 'warning'
+  variant: 'warning',
 });
 ```
 
@@ -30,13 +30,13 @@ Oura.alert({ description: 'New version available.', variant: 'info' });
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `title` | `string` | — | Bold header text |
-| `description` | `string` | — | Alert message |
-| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Color variant |
-| `dismissible` | `boolean` | `true` | Show dismiss × button |
-| `container` | `string \| HTMLElement` | `document.body` | Target container |
+| Option        | Type                                                       | Default         | Description           |
+| ------------- | ---------------------------------------------------------- | --------------- | --------------------- |
+| `title`       | `string`                                                   | —               | Bold header text      |
+| `description` | `string`                                                   | —               | Alert message         |
+| `variant`     | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'`     | Color variant         |
+| `dismissible` | `boolean`                                                  | `true`          | Show dismiss × button |
+| `container`   | `string \| HTMLElement`                                    | `document.body` | Target container      |
 
 ## Inside a Container
 
@@ -45,7 +45,7 @@ Oura.alert({
   title: 'Saved!',
   description: 'Your changes have been saved successfully.',
   variant: 'success',
-  container: '#notifications-area'
+  container: '#notifications-area',
 });
 ```
 

@@ -8,7 +8,7 @@ Oura supports **6 anchor positions** for your toast notifications. Configure glo
 import Oura from 'oura-js';
 
 Oura.configure({
-  position: 'top-right' // default
+  position: 'top-right', // default
 });
 ```
 
@@ -22,14 +22,14 @@ Oura.configure({
 └────────────┴────────────┴────────────┘
 ```
 
-| Value | Location |
-|---|---|
-| `top-left` | Top-left corner |
-| `top-center` | Top, horizontally centered |
-| `top-right` | Top-right corner *(default)* |
-| `bottom-left` | Bottom-left corner |
+| Value           | Location                      |
+| --------------- | ----------------------------- |
+| `top-left`      | Top-left corner               |
+| `top-center`    | Top, horizontally centered    |
+| `top-right`     | Top-right corner _(default)_  |
+| `bottom-left`   | Bottom-left corner            |
 | `bottom-center` | Bottom, horizontally centered |
-| `bottom-right` | Bottom-right corner |
+| `bottom-right`  | Bottom-right corner           |
 
 ## Live Example
 

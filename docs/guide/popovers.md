@@ -8,7 +8,7 @@ Floating glassmorphic panels anchored to a trigger element. Popovers support HTM
 const cleanup = Oura.popover('#settings-btn', {
   title: 'Settings',
   html: '<p>Customize your preferences here.</p>',
-  placement: 'bottom'
+  placement: 'bottom',
 });
 ```
 
@@ -16,12 +16,12 @@ const cleanup = Oura.popover('#settings-btn', {
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `title` | `string` | — | Optional header text |
-| `html` | `string` | — | HTML content for the body |
-| `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Position relative to target |
-| `closeOnClickOutside` | `boolean` | `true` | Close when clicking outside |
+| Option                | Type                                     | Default    | Description                 |
+| --------------------- | ---------------------------------------- | ---------- | --------------------------- |
+| `title`               | `string`                                 | —          | Optional header text        |
+| `html`                | `string`                                 | —          | HTML content for the body   |
+| `placement`           | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Position relative to target |
+| `closeOnClickOutside` | `boolean`                                | `true`     | Close when clicking outside |
 
 ## With Rich Content
 
@@ -37,7 +37,7 @@ Oura.popover('#info-btn', {
       </div>
     </div>
   `,
-  placement: 'bottom'
+  placement: 'bottom',
 });
 ```
 

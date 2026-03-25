@@ -9,7 +9,7 @@ const el = Oura.skeleton({
   variant: 'rectangular',
   width: '100%',
   height: '120px',
-  container: '#content-area'
+  container: '#content-area',
 });
 ```
 
@@ -35,13 +35,13 @@ Oura.skeleton({ variant: 'rectangular', width: '300px', height: '200px' });
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `variant` | `'text' \| 'circular' \| 'rectangular'` | `'rectangular'` | Shape variant |
-| `width` | `string` | `'100%'` / `'48px'` | CSS width |
-| `height` | `string` | auto | CSS height |
-| `count` | `number` | `1` | Number of skeleton elements |
-| `container` | `string \| HTMLElement` | `document.body` | Target container |
+| Option      | Type                                    | Default             | Description                 |
+| ----------- | --------------------------------------- | ------------------- | --------------------------- |
+| `variant`   | `'text' \| 'circular' \| 'rectangular'` | `'rectangular'`     | Shape variant               |
+| `width`     | `string`                                | `'100%'` / `'48px'` | CSS width                   |
+| `height`    | `string`                                | auto                | CSS height                  |
+| `count`     | `number`                                | `1`                 | Number of skeleton elements |
+| `container` | `string \| HTMLElement`                 | `document.body`     | Target container            |
 
 ## Replace with Content
 
