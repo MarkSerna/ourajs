@@ -7,19 +7,29 @@ export interface OuraOptions {
   cancelButtonText?: string;
   showDenyButton?: boolean;
   denyButtonText?: string;
-  preConfirm?: (inputValue?: string) => Promise<unknown> | unknown;
+  preConfirm?: (inputValue?: string | string[] | boolean) => Promise<unknown> | unknown;
   allowOutsideClick?: boolean;
   timer?: number;
   type?: 'toast' | 'progress';
 
+  // Image support
+  imageUrl?: string;
+  imageWidth?: string;
+  imageAlt?: string;
+
   // Prompt specific
-  input?: 'text' | 'password' | 'email' | 'number';
+  input?: 'text' | 'password' | 'email' | 'number' | 'range' | 'select' | 'radio' | 'checkbox';
   inputPlaceholder?: string;
-  inputValue?: string;
+  inputValue?: string | string[] | boolean;
+  inputOptions?: Record<string, string> | string[];
+  inputAttributes?: Record<string, string>;
 
   // Drawer/Layout specific
   side?: 'left' | 'right' | 'top' | 'bottom';
   width?: string;
+
+  // Footer
+  footer?: string | HTMLElement;
 
   // Toast actions
   actions?: ToastAction[];
@@ -64,7 +74,7 @@ export interface OuraResult {
   isConfirmed: boolean;
   isDismissed: boolean;
   isDenied: boolean;
-  value?: string;
+  value?: any;
 }
 
 export interface ButtonConfig {

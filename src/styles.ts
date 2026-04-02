@@ -94,10 +94,18 @@ export const injectStyles = (): void => {
         }
 
         .oura-icon {
-            margin: 0 auto 24px;
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .oura-image {
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 8px;
         }
 
         .oura-main-icon-glass {
@@ -167,6 +175,72 @@ export const injectStyles = (): void => {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25), inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
+        .oura-select {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='Length19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .oura-radio-group, .oura-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+            text-align: left;
+            padding: 0 10px;
+        }
+
+        .oura-choice-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--oura-text);
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .oura-choice-label:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .oura-choice-input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--oura-accent);
+        }
+
+        .oura-range-container {
+            margin-bottom: 24px;
+            padding: 0 10px;
+        }
+
+        .oura-range-input {
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 5px;
+            appearance: none;
+            outline: none;
+            accent-color: var(--oura-accent);
+        }
+
+        .oura-range-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: var(--oura-accent);
+        }
+
         .oura-actions {
             display: flex;
             flex-wrap: wrap;
@@ -210,6 +284,24 @@ export const injectStyles = (): void => {
         .oura-btn-cancel:hover {
             background: rgba(200, 204, 212, 0.3);
             box-shadow: none;
+        }
+
+        .oura-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--oura-border);
+            font-size: 0.85rem;
+            color: var(--oura-text-muted);
+            text-align: center;
+        }
+
+        .oura-footer a {
+            color: var(--oura-accent);
+            text-decoration: none;
+        }
+
+        .oura-footer a:hover {
+            text-decoration: underline;
         }
 
         .oura-btn-deny {

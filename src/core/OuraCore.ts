@@ -238,6 +238,13 @@ export class OuraCore {
     }
   }
 
+  public close(result?: OuraResult): void {
+    if (this.activeModals.length > 0) {
+      const topModal = this.activeModals[this.activeModals.length - 1];
+      topModal.close(result || { isConfirmed: false, isDismissed: true, isDenied: false });
+    }
+  }
+
   public _parseArgs(args: unknown[], defaultIcon?: OuraOptions['icon']): OuraOptions {
     if (typeof args[0] === 'string' || typeof args[1] === 'string') {
       return {

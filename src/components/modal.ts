@@ -38,6 +38,15 @@ export function _buildModal(
       modal.appendChild(contentContainer);
     }
 
+    if (options.imageUrl) {
+      const img = document.createElement('img');
+      img.src = options.imageUrl;
+      img.alt = options.imageAlt || '';
+      img.className = 'oura-image';
+      if (options.imageWidth) img.style.width = options.imageWidth;
+      contentContainer.appendChild(img);
+    }
+
     if (options.icon && MAIN_ICONS[options.icon]) {
       const iconEl = document.createElement('div');
       iconEl.className = 'oura-icon';
@@ -80,13 +89,96 @@ export function _buildModal(
     }
 
     let inputEl: HTMLInputElement | null = null;
-    if (options.input) {
+    let getInputValue = (): any => (inputEl ? inputEl.value : undefined);
+
+    if (options.input === 'select') {
+      const selectEl = document.createElement('select');
+      selectEl.className = 'oura-input oura-select';
+      const opts = options.inputOptions || {};
+      if (Array.isArray(opts)) {
+        opts.forEach((opt) => {
+          const o = document.createElement('option');
+          o.value = opt;
+          o.textContent = opt;
+          selectEl.appendChild(o);
+        });
+      } else {
+        Object.entries(opts).forEach(([val, label]) => {
+          const o = document.createElement('option');
+          o.value = val;
+          o.textContent = label;
+          selectEl.appendChild(o);
+        });
+      }
+      if (options.inputValue) selectEl.value = options.inputValue as string;
+      contentContainer.appendChild(selectEl);
+      getInputValue = () => selectEl.value;
+    } else if (options.input === 'radio' || options.input === 'checkbox') {
+      const group = document.createElement('div');
+      group.className = options.input === 'radio' ? 'oura-radio-group' : 'oura-checkbox-group';
+      const opts = options.inputOptions || {};
+      const entries = Array.isArray(opts) ? opts.map((o) => [o, o]) : Object.entries(opts);
+
+      entries.forEach(([val, label]) => {
+        const l = document.createElement('label');
+        l.className = 'oura-choice-label';
+        const i = document.createElement('input');
+        i.type = options.input as string;
+        i.name = uniqueId;
+        i.value = val;
+        i.className = 'oura-choice-input';
+        if (options.input === 'checkbox' && Array.isArray(options.inputValue)) {
+          if (options.inputValue.includes(val)) i.checked = true;
+        } else if (options.inputValue === val) {
+          i.checked = true;
+        }
+        l.appendChild(i);
+        l.appendChild(document.createTextNode(label));
+        group.appendChild(l);
+      });
+      contentContainer.appendChild(group);
+      getInputValue = () => {
+        if (options.input === 'radio') {
+          const checked = group.querySelector('input:checked') as HTMLInputElement;
+          return checked ? checked.value : undefined;
+        } else {
+          const checked = group.querySelectorAll('input:checked');
+          return Array.from(checked).map((c) => (c as HTMLInputElement).value);
+        }
+      };
+    } else if (options.input === 'range') {
+      const container = document.createElement('div');
+      container.className = 'oura-range-container';
+      const valDisp = document.createElement('span');
+      valDisp.className = 'oura-range-value';
+      const range = document.createElement('input');
+      range.type = 'range';
+      range.className = 'oura-range-input';
+      if (options.inputAttributes) {
+        Object.entries(options.inputAttributes).forEach(([k, v]) => range.setAttribute(k, v));
+      }
+      range.value = (options.inputValue as string) || '50';
+      valDisp.textContent = range.value;
+      range.addEventListener('input', () => {
+        valDisp.textContent = range.value;
+      });
+      container.appendChild(valDisp);
+      container.appendChild(range);
+      contentContainer.appendChild(container);
+      getInputValue = () => range.value;
+    } else if (options.input) {
       inputEl = document.createElement('input');
       inputEl.type =
-        options.input === 'number' ? 'number' : options.input === 'password' ? 'password' : 'text';
+        options.input === 'number'
+          ? 'number'
+          : options.input === 'password'
+            ? 'password'
+            : options.input === 'email'
+              ? 'email'
+              : 'text';
       inputEl.className = 'oura-input';
       if (options.inputPlaceholder) inputEl.placeholder = options.inputPlaceholder;
-      if (options.inputValue) inputEl.value = options.inputValue;
+      if (options.inputValue) inputEl.value = options.inputValue as string;
 
       inputEl.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -95,7 +187,7 @@ export function _buildModal(
             isConfirmed: true,
             isDismissed: false,
             isDenied: false,
-            value: inputEl?.value,
+            value: getInputValue(),
           });
         }
       });
@@ -113,8 +205,8 @@ export function _buildModal(
       btn.textContent = btnConfig.text;
       btn.addEventListener('click', () => {
         const result: OuraResult = { ...btnConfig.value };
-        if (result.isConfirmed && inputEl) {
-          result.value = inputEl.value;
+        if (result.isConfirmed) {
+          result.value = getInputValue();
         }
         close(result, btn);
       });
@@ -123,6 +215,18 @@ export function _buildModal(
     });
 
     contentContainer.appendChild(actions);
+
+    if (options.footer) {
+      const footer = document.createElement('div');
+      footer.className = 'oura-footer';
+      if (options.footer instanceof HTMLElement) {
+        footer.appendChild(options.footer);
+      } else {
+        footer.innerHTML = options.footer;
+      }
+      contentContainer.appendChild(footer);
+    }
+
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 

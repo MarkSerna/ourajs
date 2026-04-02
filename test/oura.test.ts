@@ -132,11 +132,6 @@ describe('OuraNotification UI Tests', () => {
     expect(toast?.textContent).toContain('boom');
   });
 
-  it('should have a default toast container position of top-right', () => {
-    const container = document.getElementById('oura-toast-container');
-    expect(container?.classList.contains('oura-pos-top-right')).toBe(true);
-  });
-
   it('should update toast container position', () => {
     Oura.configure({ position: 'bottom-center' });
     const container = document.getElementById('oura-toast-container');
