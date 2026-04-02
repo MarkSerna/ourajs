@@ -1,35 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Oura.js New Features Test</title>
     <script src="../dist/oura.umd.cjs"></script>
     <style>
-        body {
-            font-family: system-ui, sans-serif;
-            padding: 40px;
-            background: #f0f2f5;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            background: white;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        button:hover {
-            background: #eee;
-        }
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 40px;
+        background: #f0f2f5;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      button {
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: white;
+        cursor: pointer;
+        font-weight: 500;
+      }
+      button:hover {
+        background: #eee;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Oura.js Parity Test</h1>
     <button onclick="testImage()">Test Image Modal</button>
     <button onclick="testFooter()">Test Footer Modal</button>
@@ -41,99 +41,100 @@
     <button onclick="testClose()">Test Auto Close (2s)</button>
 
     <script>
-        // Oura is globally available from the UMD bundle
-        Oura.configure({ theme: 'system' });
+      // Oura is globally available from the UMD bundle
+      Oura.configure({ theme: 'system' });
 
-        function testImage() {
-            Oura.fire({
-                title: 'Modern Image Support',
-                text: 'Now you can add beautiful images to your glassmorphic modals.',
-                imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800',
-                imageWidth: '300px',
-                imageAlt: 'Abstract glass'
-            });
-        }
+      function testImage() {
+        Oura.fire({
+          title: 'Modern Image Support',
+          text: 'Now you can add beautiful images to your glassmorphic modals.',
+          imageUrl:
+            'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800',
+          imageWidth: '300px',
+          imageAlt: 'Abstract glass',
+        });
+      }
 
-        function testFooter() {
-            Oura.fire({
-                title: 'Footer Support',
-                text: 'Perfect for adding links or help text.',
-                footer: '<a href="#">Need help with this action?</a>'
-            });
-        }
+      function testFooter() {
+        Oura.fire({
+          title: 'Footer Support',
+          text: 'Perfect for adding links or help text.',
+          footer: '<a href="#">Need help with this action?</a>',
+        });
+      }
 
-        async function testSelect() {
-            const { value } = await Oura.prompt({
-                title: 'Select a theme',
-                input: 'select',
-                inputOptions: {
-                    'light': 'Light Glass',
-                    'dark': 'Dark Glass',
-                    'cyber': 'Cyberpunk Blue'
-                },
-                inputPlaceholder: 'Please choose...'
-            });
-            if (value) Oura.success('Selected: ' + value);
-        }
+      async function testSelect() {
+        const { value } = await Oura.prompt({
+          title: 'Select a theme',
+          input: 'select',
+          inputOptions: {
+            light: 'Light Glass',
+            dark: 'Dark Glass',
+            cyber: 'Cyberpunk Blue',
+          },
+          inputPlaceholder: 'Please choose...',
+        });
+        if (value) Oura.success('Selected: ' + value);
+      }
 
-        async function testRadio() {
-            const { value } = await Oura.prompt({
-                title: 'Favorite Fruit',
-                input: 'radio',
-                inputOptions: ['Apple', 'Banana', 'Orange'],
-                confirmButtonText: 'Submit'
-            });
-            if (value) Oura.success('Selected: ' + value);
-        }
+      async function testRadio() {
+        const { value } = await Oura.prompt({
+          title: 'Favorite Fruit',
+          input: 'radio',
+          inputOptions: ['Apple', 'Banana', 'Orange'],
+          confirmButtonText: 'Submit',
+        });
+        if (value) Oura.success('Selected: ' + value);
+      }
 
-        async function testCheckbox() {
-            const { value } = await Oura.prompt({
-                title: 'Interests',
-                text: 'Select multiple',
-                input: 'checkbox',
-                inputOptions: {
-                    'coding': 'Coding',
-                    'design': 'Design',
-                    'gaming': 'Gaming'
-                },
-                inputValue: ['coding'] // Pre-selected
-            });
-            if (value) Oura.success('Selected: ' + value.join(', '));
-        }
+      async function testCheckbox() {
+        const { value } = await Oura.prompt({
+          title: 'Interests',
+          text: 'Select multiple',
+          input: 'checkbox',
+          inputOptions: {
+            coding: 'Coding',
+            design: 'Design',
+            gaming: 'Gaming',
+          },
+          inputValue: ['coding'], // Pre-selected
+        });
+        if (value) Oura.success('Selected: ' + value.join(', '));
+      }
 
-        async function testRange() {
-            const { value } = await Oura.prompt({
-                title: 'Volume Control',
-                input: 'range',
-                inputAttributes: {
-                    min: 0,
-                    max: 100,
-                    step: 5
-                },
-                inputValue: 75
-            });
-            if (value) Oura.success('Value: ' + value);
-        }
+      async function testRange() {
+        const { value } = await Oura.prompt({
+          title: 'Volume Control',
+          input: 'range',
+          inputAttributes: {
+            min: 0,
+            max: 100,
+            step: 5,
+          },
+          inputValue: 75,
+        });
+        if (value) Oura.success('Value: ' + value);
+      }
 
-        async function testQueue() {
-            const results = await Oura.queue([
-                { title: 'Step 1', text: 'Welcome to the setup wizard.' },
-                { title: 'Step 2', input: 'text', inputPlaceholder: 'Your name' },
-                { title: 'Step 3', text: 'All done!' }
-            ]);
-            console.log('Queue finished', results);
-        }
+      async function testQueue() {
+        const results = await Oura.queue([
+          { title: 'Step 1', text: 'Welcome to the setup wizard.' },
+          { title: 'Step 2', input: 'text', inputPlaceholder: 'Your name' },
+          { title: 'Step 3', text: 'All done!' },
+        ]);
+        console.log('Queue finished', results);
+      }
 
-        function testClose() {
-            Oura.fire({
-                title: 'Auto-closing...',
-                text: 'This will close in 2 seconds programmatically.',
-                showConfirmButton: false // Note: standard SWAL option, let's see if Oura supports it (it doesn't yet, but we'll use timer or just close it)
-            });
-            setTimeout(() => {
-                Oura.close({ isConfirmed: false, isDismissed: true, isDenied: false });
-            }, 2000);
-        }
+      function testClose() {
+        Oura.fire({
+          title: 'Auto-closing...',
+          text: 'This will close in 2 seconds programmatically.',
+          showConfirmButton: false, // Note: standard SWAL option, let's see if Oura supports it (it doesn't yet, but we'll use timer or just close it)
+        });
+        setTimeout(() => {
+          Oura.close({ isConfirmed: false, isDismissed: true, isDenied: false });
+        }, 2000);
+      }
     </script>
-</body>
+  </body>
 </html>

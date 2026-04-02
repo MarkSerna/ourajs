@@ -383,8 +383,7 @@ class OuraNotification {
         getInputValue = () => selectEl.value;
       } else if (options.input === 'radio' || options.input === 'checkbox') {
         const group = document.createElement('div');
-        group.className =
-          options.input === 'radio' ? 'oura-radio-group' : 'oura-checkbox-group';
+        group.className = options.input === 'radio' ? 'oura-radio-group' : 'oura-checkbox-group';
         const opts = options.inputOptions || {};
         const entries = Array.isArray(opts) ? opts.map((o) => [o, o]) : Object.entries(opts);
 
@@ -424,9 +423,7 @@ class OuraNotification {
         range.type = 'range';
         range.className = 'oura-range-input';
         if (options.inputAttributes) {
-          Object.entries(options.inputAttributes).forEach(([k, v]) =>
-            range.setAttribute(k, v)
-          );
+          Object.entries(options.inputAttributes).forEach(([k, v]) => range.setAttribute(k, v));
         }
         range.value = (options.inputValue as string) || '50';
         valDisp.textContent = range.value;
