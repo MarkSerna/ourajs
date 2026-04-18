@@ -165,7 +165,7 @@ npm run test:coverage     # Vitest + V8 coverage (same as CI)
 npm run build
 ```
 
-Guidance on HTML, XSS, and SSR: see **Security & HTML** in the documentation site. For contributing, see [CONTRIBUTING.md](CONTRIBUTING.md).
+Guidance on HTML, XSS, and SSR: see **Security & HTML** in the documentation site. For contributing, see [CONTRIBUTING.md](CONTRIBUTING.md). Product execution plan: [BACKLOG.md](BACKLOG.md).
 
 ---
 
