@@ -23,8 +23,8 @@
 | **Dropdowns**     | Menus with icons, shortcuts & keyboard nav         |
 | **Context Menus** | Custom right-click menus                           |
 | **Inline Alerts** | Static banners (success/warning/error/info)        |
-| **Skeletons** | Animated loading placeholders |
-| **Hover Cards** | Preview cards on hover |
+| **Skeletons**     | Animated loading placeholders                      |
+| **Hover Cards**   | Preview cards on hover                             |
 
 **Plus:** Toast actions, custom SVG icons, exit animations, 6-way positioning, system theme sync, and i18n (10 languages).
 
