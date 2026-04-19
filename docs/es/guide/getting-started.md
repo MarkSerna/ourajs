@@ -7,14 +7,14 @@ Oura.js es una librería de notificaciones premium, ligera y con estética glass
 Instala el paquete usando tu gestor de paquetes favorito:
 
 ```bash
-npm install oura-js
+npm install oura-ui
 ```
 
 O vía CDN:
 
 ```html
-<script src="https://unpkg.com/oura-js/dist/oura.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/oura-js/dist/style.css" />
+<script src="https://unpkg.com/oura-ui/dist/oura.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/oura-ui/dist/style.css" />
 ```
 
 ## Uso Básico
@@ -22,7 +22,7 @@ O vía CDN:
 Importa Oura y dispara tu primera notificación:
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 // Un simple toast de éxito
 Oura.success('¡Instalación completada!');

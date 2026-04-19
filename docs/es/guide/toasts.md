@@ -7,7 +7,7 @@ Los Toasts son notificaciones no intrusivas y transitorias que se apilan elegant
 Invocación estándar:
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 Oura.success('Perfil guardado con éxito');
 Oura.error('Error al subir el archivo');

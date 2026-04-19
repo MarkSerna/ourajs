@@ -1,7 +1,7 @@
 # Oura.js
 
-[![npm version](https://img.shields.io/npm/v/oura-js)](https://www.npmjs.com/package/oura-js)
-[![Bundle Size](https://img.shields.io/bundlephobia/minzip/oura-js)](https://bundlephobia.com/package/oura-js)
+[![npm version](https://img.shields.io/npm/v/oura-ui)](https://www.npmjs.com/package/oura-ui)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/oura-ui)](https://bundlephobia.com/package/oura-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6)](https://www.typescriptlang.org/)
 
@@ -23,8 +23,8 @@
 | **Dropdowns**     | Menus with icons, shortcuts & keyboard nav         |
 | **Context Menus** | Custom right-click menus                           |
 | **Inline Alerts** | Static banners (success/warning/error/info)        |
-| **Skeletons**     | Animated loading placeholders                      |
-| **Hover Cards**   | Preview cards on hover                             |
+| **Skeletons** | Animated loading placeholders |
+| **Hover Cards** | Preview cards on hover |
 
 **Plus:** Toast actions, custom SVG icons, exit animations, 6-way positioning, system theme sync, and i18n (10 languages).
 
@@ -33,13 +33,13 @@
 ## 📦 Install
 
 ```bash
-npm install oura-js
+npm install oura-ui
 ```
 
 ### CDN
 
 ```html
-<script src="https://unpkg.com/oura-js/dist/oura.umd.cjs"></script>
+<script src="https://unpkg.com/oura-ui/dist/oura.umd.cjs"></script>
 ```
 
 ---
@@ -47,7 +47,7 @@ npm install oura-js
 ## 🚀 Quick Start
 
 ```js
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 // Configure
 Oura.configure({
@@ -147,8 +147,8 @@ Oura.configure({ locale: 'es' });
 Tipos públicos se reexportan junto al default:
 
 ```ts
-import Oura from 'oura-js';
-import type { OuraOptions, OuraConfig, OuraResult, OuraPromiseMessages } from 'oura-js';
+import Oura from 'oura-ui';
+import type { OuraOptions, OuraConfig, OuraResult, OuraPromiseMessages } from 'oura-ui';
 ```
 
 `package.json` declara `exports.types` primero para que el IDE resuelva bien los `.d.ts`.
@@ -207,4 +207,4 @@ Guidance on HTML, XSS, and SSR: see **Security & HTML** in the documentation sit
 
 ## 📄 License
 
-MIT © [Oura Open Source](https://github.com/MarkSerna/ourajs)
+MIT © [Oura Open Source](https://github.com/MarkSerna/oura-ui)

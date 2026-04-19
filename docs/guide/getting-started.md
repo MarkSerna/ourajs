@@ -7,14 +7,14 @@ Oura.js is a modern, beautifully designed alternative to traditional notificatio
 Using NPM or Yarn:
 
 ```sh
-npm install oura-js
+npm install oura-ui
 ```
 
 Or inject it directly in your HTML (CDN):
 
 ```html
 <script type="module">
-  import Oura from 'https://unpkg.com/oura-js/dist/oura.js';
+  import Oura from 'https://unpkg.com/oura-ui/dist/oura.js';
 
   Oura.success('Library loaded successfully!');
 </script>
@@ -25,7 +25,7 @@ Or inject it directly in your HTML (CDN):
 You can customize the base behavior at the start of your app:
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 Oura.configure({
   theme: 'dark-glass', // or 'light-glass'

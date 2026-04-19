@@ -5,7 +5,7 @@ Oura has first-class support for async operations. Use `Oura.promise()` to autom
 ## Basic Usage
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 const fetchData = fetch('/api/data').then((r) => r.json());
 

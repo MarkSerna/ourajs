@@ -7,7 +7,7 @@ Toasts are non-blocking, transient notifications that elegantly stack in the cor
 Standard toast invocation:
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 Oura.success('Profile saved successfully');
 Oura.error('Failed to upload file');

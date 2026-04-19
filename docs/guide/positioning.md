@@ -5,7 +5,7 @@ Oura supports **6 anchor positions** for your toast notifications. Configure glo
 ## Setting the Position
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 Oura.configure({
   position: 'top-right', // default

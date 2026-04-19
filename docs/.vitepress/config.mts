@@ -59,7 +59,7 @@ function sidebar(lang: string) {
 export default defineConfig({
   title: 'Oura.js',
   description: 'A premium, lightweight, glassmorphism notification library.',
-  base: '/ourajs/',
+  base: '/oura-ui/',
 
   locales: {
     root: {
@@ -87,7 +87,7 @@ export default defineConfig({
   },
 
   themeConfig: {
-    socialLinks: [{ icon: 'github', link: 'https://github.com/MarkSerna/ourajs' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/MarkSerna/oura-ui' }],
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2026-present Oura Open Source',

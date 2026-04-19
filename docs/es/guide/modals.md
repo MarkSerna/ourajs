@@ -7,7 +7,7 @@ Oura ofrece una gran flexibilidad para generar diálogos en el centro de la pant
 Usa el método `Oura.fire()` con un objeto de configuración.
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 Oura.fire({
   title: 'Error de Red',

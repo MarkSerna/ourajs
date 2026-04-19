@@ -1,14 +1,14 @@
 {
-  "name": "oura-js",
+  "name": "oura-ui",
   "version": "1.0.0",
   "description": "A modern, glassmorphic notification library powered by ES6+ and TypeScript",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MarkSerna/ourajs.git"
+    "url": "https://github.com/MarkSerna/oura-ui.git"
   },
-  "homepage": "https://markserna.github.io/ourajs/",
+  "homepage": "https://markserna.github.io/oura-ui/",
   "bugs": {
-    "url": "https://github.com/MarkSerna/ourajs/issues"
+    "url": "https://github.com/MarkSerna/oura-ui/issues"
   },
   "files": [
     "dist"

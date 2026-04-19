@@ -5,7 +5,7 @@ Oura's **Drawer** is a side panel that slides in from any edge of the screen, pe
 ## Basic Drawer
 
 ```javascript
-import Oura from 'oura-js';
+import Oura from 'oura-ui';
 
 Oura.drawer({
   title: 'User Preferences',
